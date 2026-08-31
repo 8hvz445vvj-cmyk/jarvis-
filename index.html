@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable"
+      content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="black">
+
+<meta name="apple-mobile-web-app-title"
+      content="JARVIS">
+
+<title>JARVIS</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Helvetica Neue",
+        sans-serif;
+}
+
+body {
+    color: white;
+}
+
+.app {
+    width: 100%;
+    height: 100dvh;
+
+    background: #000;
+
+    display: flex;
+    flex-direction: column;
+
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.main {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0 18px;
+
+    overflow: hidden;
+}
+
+.top-space {
+    flex: 1;
+}
+
+
+/* =========================
+   JARVIS CORE
+========================= */
+
+.core {
+    position: relative;
+
+    width: min(300px, 78vw);
+    height: min(300px, 78vw);
+
+    flex-shrink: 0;
+
+    --r1: 0deg;
+    --r2: 0deg;
+    --pulse: 1;
+}
+
+.glow {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(var(--pulse));
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,255,.35) 0%,
+            rgba(0,100,255,.12) 40%,
+            transparent 68%
+        );
+}
+
+.ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+}
+
+.outer {
+    width: 285px;
+    height: 285px;
+}
+
+.outer circle {
+    fill: none;
+
+    stroke:
+        rgba(0,255,255,.35);
+
+    stroke-width: 1;
+}
+
+.outer-segment {
+    width: 270px;
+    height: 270px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r1));
+}
+
+.outer-segment-2 {
+    width: 270px;
+    height: 270px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r2));
+}
+
+.outer-segment-3 {
+    width: 270px;
+    height: 270px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r1));
+}
+
+.middle {
+    width: 205px;
+    height: 205px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(
+            calc(var(--r1) * -1)
+        );
+}
+
+.middle circle {
+    fill: none;
+
+    stroke:
+        rgba(0,255,255,.65);
+
+    stroke-width: 2;
+}
+
+.inner {
+    width: 190px;
+    height: 190px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r2));
+}
+
+.inner-2 {
+    width: 190px;
+    height: 190px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(
+            calc(var(--r1) * -1)
+        );
+}
+
+.center-glow {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 130px;
+    height: 130px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(var(--pulse));
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0%,
+            cyan 20%,
+            rgba(0,100,255,.8) 48%,
+            transparent 72%
+        );
+}
+
+.core-center {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 18px;
+    height: 18px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 10px cyan,
+        0 0 20px cyan,
+        0 0 35px rgba(0,255,255,.8);
+}
+
+
+/* =========================
+   TEXT
+========================= */
+
+.title {
+    margin-top: 8px;
+
+    font-size: 42px;
+
+    font-weight: 300;
+
+    letter-spacing: 10px;
+
+    color: white;
+}
+
+.status {
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    letter-spacing: 4px;
+
+    color:
+        rgba(0,255,255,.8);
+}
+
+.recognized {
+    margin-top: 17px;
+
+    width: 100%;
+    max-width: 420px;
+
+    min-height: 44px;
+
+    font-size: 17px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    color:
+        rgba(255,255,255,.9);
+
+    overflow-y: auto;
+}
+
+.response {
+    margin-top: 7px;
+
+    width: 100%;
+    max-width: 430px;
+
+    max-height: 110px;
+
+    overflow-y: auto;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    color:
+        rgba(0,255,255,.95);
+
+    white-space: pre-wrap;
+}
+
+.bottom-space {
+    flex: 1;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-area {
+    width: 100%;
+
+    max-width: 520px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 9px;
+
+    padding-bottom: 15px;
+}
+
+.text-box {
+    flex: 1;
+
+    min-width: 0;
+
+    min-height: 50px;
+
+    max-height: 110px;
+
+    resize: none;
+
+    outline: none;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius: 20px;
+
+    padding:
+        14px 16px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    line-height: 21px;
+}
+
+.text-box::placeholder {
+    color:
+        rgba(255,255,255,.45);
+}
+
+.button {
+    width: 50px;
+    height: 50px;
+
+    min-width: 50px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid
+        rgba(0,255,255,.55);
+
+    cursor: pointer;
+}
+
+.button:active {
+    transform:
+        scale(.92);
+}
+
+.mic.listening {
+    background:
+        rgba(0,140,255,.25);
+
+    border-color: cyan;
+
+    box-shadow:
+        0 0 15px
+        rgba(0,255,255,.5);
+}
+
+.mic-svg {
+    width: 24px;
+    height: 24px;
+
+    fill: none;
+
+    stroke: white;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+}
+
+.send {
+    border: none;
+
+    background:
+        #087cff;
+
+    font-size: 24px;
+}
+
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media (max-height: 700px) {
+
+    .core {
+        width: 245px;
+        height: 245px;
+    }
+
+    .outer {
+        width: 235px;
+        height: 235px;
+    }
+
+    .outer-segment,
+    .outer-segment-2,
+    .outer-segment-3 {
+        width: 225px;
+        height: 225px;
+    }
+
+    .middle {
+        width: 165px;
+        height: 165px;
+    }
+
+    .inner,
+    .inner-2 {
+        width: 153px;
+        height: 153px;
+    }
+
+    .center-glow {
+        width: 105px;
+        height: 105px;
+    }
+
+    .title {
+        font-size: 36px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<div class="main">
+
+<div class="top-space"></div>
+
+
+<!-- =========================
+     JARVIS KULIČKA
+========================= -->
+
+<div
+    class="core"
+    id="core"
+>
+
+<div class="glow"></div>
+
+
+<svg
+    class="ring outer"
+    viewBox="0 0 285 285"
+>
+
+<circle
+    cx="142.5"
+    cy="142.5"
+    r="142"
+/>
+
+</svg>
+
+
+<svg
+    class="ring outer-segment"
+    viewBox="0 0 270 270"
+>
+
+<circle
+    cx="135"
+    cy="135"
+    r="128"
+    fill="none"
+    stroke="rgba(0,255,255,.9)"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-dasharray="185 815"
+    pathLength="1000"
+/>
+
+</svg>
+
+
+<svg
+    class="ring outer-segment-2"
+    viewBox="0 0 270 270"
+>
+
+<circle
+    cx="135"
+    cy="135"
+    r="128"
+    fill="none"
+    stroke="rgba(0,255,255,.8)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-dasharray="125 875"
+    stroke-dashoffset="-480"
+    pathLength="1000"
+/>
+
+</svg>
+
+
+<svg
+    class="ring outer-segment-3"
+    viewBox="0 0 270 270"
+>
+
+<circle
+    cx="135"
+    cy="135"
+    r="128"
+    fill="none"
+    stroke="rgba(40,120,255,.9)"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-dasharray="100 900"
+    stroke-dashoffset="-780"
+    pathLength="1000"
+/>
+
+</svg>
+
+
+<svg
+    class="ring middle"
+    viewBox="0 0 205 205"
+>
+
+<circle
+    cx="102.5"
+    cy="102.5"
+    r="100"
+/>
+
+</svg>
+
+
+<svg
+    class="ring inner"
+    viewBox="0 0 190 190"
+>
+
+<circle
+    cx="95"
+    cy="95"
+    r="92"
+    fill="none"
+    stroke="rgba(0,120,255,.9)"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-dasharray="150 850"
+    stroke-dashoffset="-120"
+    pathLength="1000"
+/>
+
+</svg>
+
+
+<svg
+    class="ring inner-2"
+    viewBox="0 0 190 190"
+>
+
+<circle
+    cx="95"
+    cy="95"
+    r="92"
+    fill="none"
+    stroke="rgba(0,255,255,.7)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-dasharray="155 845"
+    stroke-dashoffset="-580"
+    pathLength="1000"
+/>
+
+</svg>
+
+
+<div class="center-glow"></div>
+
+<div class="core-center"></div>
+
+</div>
+
+
+<div class="title">
+JARVIS
+</div>
+
+
+<div
+    class="status"
+    id="status"
+>
+PŘIPRAVEN
+</div>
+
+
+<div
+    class="recognized"
+    id="recognized"
+>
+ŘEKNI NĚCO…
+</div>
+
+
+<div
+    class="response"
+    id="response"
+></div>
+
+
+<div class="bottom-space"></div>
+
+
+<!-- =========================
+     PSANÍ + MIKROFON
+========================= -->
+
+<div class="input-area">
+
+<textarea
+    id="textBox"
+    class="text-box"
+    rows="1"
+    placeholder="Napiš JARVISovi…"
+></textarea>
+
+
+<button
+    id="micButton"
+    class="button mic"
+    aria-label="Mikrofon"
+>
+
+<svg
+    class="mic-svg"
+    viewBox="0 0 24 24"
+>
+
+<rect
+    x="9"
+    y="3"
+    width="6"
+    height="11"
+    rx="3"
+/>
+
+<path
+    d="M5 11a7 7 0 0 0 14 0"
+/>
+
+<path
+    d="M12 18v3"
+/>
+
+<path
+    d="M9 21h6"
+/>
+
+</svg>
+
+</button>
+
+
+<button
+    id="sendButton"
+    class="button send"
+    aria-label="Odeslat"
+>
+↑
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    CreateMLCEngine
+}
+from
+"https://esm.run/@mlc-ai/web-llm";
+
+
+/* =========================
+   ELEMENTY
+========================= */
+
+const core =
+    document.getElementById("core");
+
+const status =
+    document.getElementById("status");
+
+const recognized =
+    document.getElementById("recognized");
+
+const response =
+    document.getElementById("response");
+
+const micButton =
+    document.getElementById("micButton");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const textBox =
+    document.getElementById("textBox");
+
+
+/* =========================
+   ANIMACE KULIČKY
+========================= */
+
+let isThinking = false;
+
+let rotation1 = 0;
+
+let rotation2 = 0;
+
+let lastTime =
+    performance.now();
+
+
+function animate(time) {
+
+    const delta =
+        (time - lastTime) / 1000;
+
+    lastTime = time;
+
+
+    const speed1 =
+        isThinking ? 90 : 45;
+
+    const speed2 =
+        isThinking ? -144 : -72;
+
+
+    rotation1 +=
+        speed1 * delta;
+
+    rotation2 +=
+        speed2 * delta;
+
+
+    const pulse =
+        1 +
+        Math.sin(
+            time / 1000 *
+            Math.PI *
+            (
+                isThinking
+                ? 1.6
+                : 0.55
+            )
+        )
+        *
+        (
+            isThinking
+            ? .12
+            : .05
+        );
+
+
+    core.style.setProperty(
+        "--r1",
+        rotation1 + "deg"
+    );
+
+    core.style.setProperty(
+        "--r2",
+        rotation2 + "deg"
+    );
+
+    core.style.setProperty(
+        "--pulse",
+        pulse
+    );
+
+
+    requestAnimationFrame(
+        animate
+    );
+}
+
+
+requestAnimationFrame(
+    animate
+);
+
+
+/* ==================================================
+   LOKÁLNÍ MODEL
+================================================== */
+
+/*
+   OVĚŘENÝ MODEL PRO WEBLLM:
+
+   Phi-3.5-mini-instruct-q4f16_1-MLC
+
+   Je pod 4B parametrů.
+*/
+
+const MODEL =
+    "Phi-3.5-mini-instruct-q4f16_1-MLC";
+
+
+let engine = null;
+
+let modelReady = false;
+
+
+/* ==================================================
+   NAČTENÍ AI
+================================================== */
+
+async function loadAI() {
+
+    status.textContent =
+        "NAČÍTÁM MOZEK";
+
+    response.textContent =
+        "Připravuji lokální AI…";
+
+    isThinking = true;
+
+
+    try {
+
+        console.log(
+            "JARVIS: WebLLM start"
+        );
+
+        console.log(
+            "Model:",
+            MODEL
+        );
+
+
+        engine =
+            await CreateMLCEngine(
+
+                MODEL,
+
+                {
+
+                    initProgressCallback:
+                    function(progress) {
+
+                        console.log(
+                            "WebLLM progress:",
+                            progress
+                        );
+
+
+                        const percent =
+                            Math.round(
+                                (
+                                    progress.progress
+                                    || 0
+                                ) * 100
+                            );
+
+
+                        status.textContent =
+                            "MOZEK "
+                            + percent
+                            + "%";
+
+
+                        response.textContent =
+                            progress.text
+                            ||
+                            "Stahuji lokální AI…";
+                    }
+                }
+            );
+
+
+        modelReady = true;
+
+
+        status.textContent =
+            "PŘIPRAVEN";
+
+
+        response.textContent =
+            "Lokální AI je připravena.";
+
+
+        console.log(
+            "JARVIS: MODEL READY"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "WEBLLM CHYBA:",
+            error
+        );
+
+
+        status.textContent =
+            "CHYBA MODELU";
+
+
+        response.textContent =
+            "CHYBA:\n\n"
+            +
+            (
+                error?.message
+                ||
+                String(error)
+            );
+
+
+    } finally {
+
+        isThinking = false;
+    }
+}
+
+
+/* ==================================================
+   JARVISŮV MOZEK
+================================================== */
+
+async function askJarvis(text) {
+
+    if (!modelReady) {
+
+        response.textContent =
+            "JARVIS ještě načítá svůj mozek.";
+
+        return;
+    }
+
+
+    isThinking = true;
+
+    status.textContent =
+        "JARVIS PŘEMÝŠLÍ";
+
+
+    try {
+
+        const result =
+            await engine.chat.completions.create({
+
+                messages: [
+
+                    {
+                        role: "system",
+
+                        content: `
+Jsi JARVIS, osobní AI asistent.
+
+Odpovídej vždy česky.
+
+Buď inteligentní,
+přirozený,
+stručný a užitečný.
+
+Mluv jako technologický
+osobní asistent.
+
+Nikdy netvrď,
+že jsi člověk.
+
+Když uživatel položí
+jednoduchou otázku,
+odpověz přímo.
+
+Když něč nevíš,
+řekni to otevřeně.
+`
+                    },
+
+                    {
+                        role: "user",
+
+                        content: text
+                    }
+
+                ],
+
+                temperature: 0.7,
+
+                max_tokens: 300
+            });
+
+
+        const answer =
+            result
+                .choices[0]
+                .message
+                .content
+                .trim();
+
+
+        response.textContent =
+            answer;
+
+
+        status.textContent =
+            "JARVIS ODPOVÍDÁ";
+
+
+        speak(answer);
+
+
+    } catch (error) {
+
+        console.error(
+            "AI ERROR:",
+            error
+        );
+
+
+        response.textContent =
+            "CHYBA AI:\n\n"
+            +
+            (
+                error?.message
+                ||
+                String(error)
+            );
+
+
+        status.textContent =
+            "CHYBA";
+
+
+    } finally {
+
+        isThinking = false;
+    }
+}
+
+
+/* ==================================================
+   PSANÍ
+================================================== */
+
+sendButton.addEventListener(
+    "click",
+    function() {
+
+        const text =
+            textBox.value.trim();
+
+
+        if (!text)
+            return;
+
+
+        textBox.value = "";
+
+
+        recognized.textContent =
+            text;
+
+
+        askJarvis(text);
+    }
+);
+
+
+textBox.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+            &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendButton.click();
+        }
+    }
+);
+
+
+/* ==================================================
+   ROZPOZNÁVÁNÍ ŘEČI
+================================================== */
+
+let recognition = null;
+
+let isListening = false;
+
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+
+    recognition.lang =
+        "cs-CZ";
+
+
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        true;
+
+
+    recognition.onstart =
+    function() {
+
+        isListening = true;
+
+        status.textContent =
+            "POSLOUCHÁM";
+
+
+        micButton.classList.add(
+            "listening"
+        );
+    };
+
+
+    recognition.onresult =
+    function(event) {
+
+        let text = "";
+
+
+        for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ) {
+
+            text +=
+                event
+                    .results[i][0]
+                    .transcript;
+        }
+
+
+        if (text.trim()) {
+
+            recognized.textContent =
+                text;
+        }
+    };
+
+
+    recognition.onend =
+    function() {
+
+        isListening = false;
+
+
+        micButton.classList.remove(
+            "listening"
+        );
+
+
+        const text =
+            recognized.textContent.trim();
+
+
+        if (
+            text &&
+            text !== "ŘEKNI NĚCO…"
+        ) {
+
+            askJarvis(text);
+        }
+    };
+
+
+    recognition.onerror =
+    function(error) {
+
+        console.log(
+            "Speech error:",
+            error
+        );
+
+
+        isListening = false;
+
+
+        micButton.classList.remove(
+            "listening"
+        );
+
+
+        status.textContent =
+            "PŘIPRAVEN";
+    };
+}
+
+
+/* ==================================================
+   MIKROFON
+================================================== */
+
+micButton.addEventListener(
+    "click",
+    function() {
+
+        if (!recognition) {
+
+            alert(
+                "Tento prohlížeč nepodporuje diktování."
+            );
+
+            return;
+        }
+
+
+        if (isListening) {
+
+            recognition.stop();
+
+        } else {
+
+            recognized.textContent =
+                "ŘEKNI NĚCO…";
+
+
+            response.textContent =
+                "";
+
+
+            try {
+
+                recognition.start();
+
+            } catch (error) {
+
+                console.log(
+                    error
+                );
+            }
+        }
+    }
+);
+
+
+/* ==================================================
+   HLAS JARVISE
+================================================== */
+
+function speak(text) {
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        return;
+    }
+
+
+    speechSynthesis.cancel();
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    utterance.lang =
+        "cs-CZ";
+
+
+    utterance.rate =
+        0.48;
+
+
+    utterance.pitch =
+        0.85;
+
+
+    utterance.volume =
+        1;
+
+
+    speechSynthesis.speak(
+        utterance
+    );
+}
+
+
+/* ==================================================
+   START
+================================================== */
+
+loadAI();
+
+</script>
+
+</body>
+</html>
