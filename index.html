@@ -461,63 +461,6 @@ body {
 
 
 /* =========================
-   DIAGNOSTIKA
-========================= */
-
-#diagnostics {
-    position: fixed;
-
-    left: 10px;
-    right: 10px;
-    bottom: 80px;
-
-    max-height: 150px;
-
-    overflow-y: auto;
-
-    padding: 9px 11px;
-
-    border-radius: 12px;
-
-    background:
-        rgba(0,0,0,.88);
-
-    border:
-        1px solid
-        rgba(0,255,255,.25);
-
-    color:
-        rgba(255,255,255,.65);
-
-    font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        monospace;
-
-    font-size: 10px;
-
-    line-height: 1.4;
-
-    z-index: 100;
-
-    display: none;
-}
-
-#diagnostics.show {
-    display: block;
-}
-
-.diag-error {
-    color: #ff5555;
-}
-
-.diag-ok {
-    color: #55ffcc;
-}
-
-
-/* =========================
    SMALL SCREEN
 ========================= */
 
@@ -796,11 +739,6 @@ aria-label="Odeslat"
 </div>
 
 
-<!-- DIAGNOSTIKA -->
-
-<div id="diagnostics"></div>
-
-
 <script type="module">
 
 /* ==================================================
@@ -836,75 +774,6 @@ document.getElementById("sendButton");
 
 const micButton =
 document.getElementById("micButton");
-
-const diagnostics =
-document.getElementById("diagnostics");
-
-
-/* ==================================================
-   DIAGNOSTIKA
-================================================== */
-
-let diagnosticVisible = true;
-
-diagnostics.classList.add("show");
-
-
-function log(message, type = "") {
-
-    const time =
-        new Date().toLocaleTimeString(
-            "cs-CZ"
-        );
-
-    const line =
-        document.createElement("div");
-
-    line.textContent =
-        `[${time}] ${message}`;
-
-    if (type === "error")
-        line.className = "diag-error";
-
-    if (type === "ok")
-        line.className = "diag-ok";
-
-    diagnostics.appendChild(line);
-
-    diagnostics.scrollTop =
-        diagnostics.scrollHeight;
-
-    console.log(message);
-}
-
-
-window.addEventListener(
-    "error",
-    event => {
-
-        log(
-            "JS ERROR: " +
-            event.message,
-            "error"
-        );
-    }
-);
-
-
-window.addEventListener(
-    "unhandledrejection",
-    event => {
-
-        log(
-            "PROMISE ERROR: " +
-            (
-                event.reason?.message ||
-                String(event.reason)
-            ),
-            "error"
-        );
-    }
-);
 
 
 /* ==================================================
@@ -965,124 +834,6 @@ requestAnimationFrame(
 
 
 /* ==================================================
-   WEBGPU TEST
-================================================== */
-
-async function testWebGPU() {
-
-    log(
-        "Spouštím WebGPU test..."
-    );
-
-    if (!navigator.gpu) {
-
-        log(
-            "WebGPU není dostupné.",
-            "error"
-        );
-
-        throw new Error(
-            "WebGPU není dostupné."
-        );
-    }
-
-    const adapter =
-        await navigator.gpu.requestAdapter({
-            powerPreference:
-                "high-performance"
-        });
-
-    if (!adapter) {
-
-        log(
-            "GPU adaptér nebyl nalezen.",
-            "error"
-        );
-
-        throw new Error(
-            "GPU adaptér nebyl nalezen."
-        );
-    }
-
-    log(
-        "GPU adapter OK",
-        "ok"
-    );
-
-    log(
-        "GPU vendor: " +
-        (
-            adapter.info?.vendor ||
-            "unknown"
-        ),
-        "ok"
-    );
-
-    log(
-        "GPU architecture: " +
-        (
-            adapter.info?.architecture ||
-            "unknown"
-        ),
-        "ok"
-    );
-
-    log(
-        "GPU device: " +
-        (
-            adapter.info?.device ||
-            "unknown"
-        ),
-        "ok"
-    );
-
-    const device =
-        await adapter.requestDevice();
-
-    if (!device) {
-
-        log(
-            "GPU device se nepodařilo vytvořit.",
-            "error"
-        );
-
-        throw new Error(
-            "GPU device chyba."
-        );
-    }
-
-    log(
-        "GPU device OK",
-        "ok"
-    );
-
-    const buffer =
-        device.createBuffer({
-
-            size: 256,
-
-            usage:
-                GPUBufferUsage.STORAGE |
-                GPUBufferUsage.COPY_DST
-        });
-
-    buffer.destroy();
-
-    log(
-        "GPU buffer test OK",
-        "ok"
-    );
-
-    log(
-        "WEBGPU TEST CELKEM OK",
-        "ok"
-    );
-
-    return true;
-}
-
-
-/* ==================================================
    AI ENGINE
 ================================================== */
 
@@ -1094,10 +845,8 @@ let loading = false;
 
 
 /*
- * Qwen2.5 0.5B Instruct
- *
- * Malý model vhodný pro první test
- * lokálního JARVISe.
+ * Stejný model, který se v předchozí
+ * verzi úspěšně načetl.
  */
 
 const MODEL =
@@ -1124,20 +873,8 @@ async function loadModel() {
     response.textContent =
         "Stahuji lokální model…";
 
-    log(
-        "Začínám načítat model:"
-    );
-
-    log(
-        MODEL
-    );
 
     try {
-
-        /*
-         * WebLLM si model po prvním
-         * stažení ukládá do cache.
-         */
 
         engine =
             await CreateMLCEngine(
@@ -1146,14 +883,6 @@ async function loadModel() {
 
                     initProgressCallback:
                     progress => {
-
-                        const text =
-                            progress?.text ||
-                            "";
-
-                        log(
-                            text
-                        );
 
                         if (
                             progress &&
@@ -1191,15 +920,6 @@ async function loadModel() {
         response.textContent =
             "Lokální AI je připravená.";
 
-        log(
-            "MODEL ÚSPĚŠNĚ NAČTEN",
-            "ok"
-        );
-
-        log(
-            "JARVIS je připraven.",
-            "ok"
-        );
 
     } catch (error) {
 
@@ -1215,16 +935,8 @@ async function loadModel() {
                 String(error)
             );
 
-        log(
-            "MODEL ERROR: " +
-            (
-                error?.message ||
-                String(error)
-            ),
-            "error"
-        );
-
         console.error(
+            "Model error:",
             error
         );
 
@@ -1244,21 +956,19 @@ async function askJarvis(text) {
     if (!text)
         return;
 
+
     recognized.textContent =
         text;
+
 
     if (!modelReady) {
 
         response.textContent =
             "Mozek ještě není připraven.";
 
-        log(
-            "Požadavek odmítnut – model není načten.",
-            "error"
-        );
-
         return;
     }
+
 
     status.textContent =
         "JARVIS PŘEMÝŠLÍ";
@@ -1266,9 +976,6 @@ async function askJarvis(text) {
     response.textContent =
         "Přemýšlím…";
 
-    log(
-        "Odesílám dotaz modelu."
-    );
 
     try {
 
@@ -1282,7 +989,8 @@ async function askJarvis(text) {
 
                         content:
                             "Jsi JARVIS, osobní AI asistent. " +
-                            "Odpovídej stručně, přirozeně a česky. " +
+                            "Odpovídej vždy česky. " +
+                            "Buď přirozený, stručný a užitečný. " +
                             "Mluv jako technologicky vyspělý osobní asistent."
                     },
 
@@ -1295,9 +1003,11 @@ async function askJarvis(text) {
 
                 ],
 
-                temperature: 0.7,
+                temperature:
+                    0.7,
 
-                max_tokens: 180
+                max_tokens:
+                    180
 
             });
 
@@ -1312,7 +1022,7 @@ async function askJarvis(text) {
         if (!answer) {
 
             throw new Error(
-                "Model nevrátil žádnou odpověď."
+                "Model nevrátil odpověď."
             );
         }
 
@@ -1320,16 +1030,13 @@ async function askJarvis(text) {
         response.textContent =
             answer;
 
+
         status.textContent =
             "JARVIS ODPOVÍDÁ";
 
-        log(
-            "Odpověď přijata.",
-            "ok"
-        );
-
 
         speak(answer);
+
 
     } catch (error) {
 
@@ -1343,13 +1050,9 @@ async function askJarvis(text) {
                 String(error)
             );
 
-        log(
-            "INFERENCE ERROR: " +
-            (
-                error?.message ||
-                String(error)
-            ),
-            "error"
+        console.error(
+            "Inference error:",
+            error
         );
     }
 }
@@ -1366,15 +1069,23 @@ sendButton.addEventListener(
         const text =
             textBox.value.trim();
 
+
         if (!text)
             return;
 
-        textBox.value = "";
 
-        await askJarvis(text);
+        textBox.value =
+            "";
+
+
+        await askJarvis(
+            text
+        );
     }
 );
 
+
+/* Enter = odeslat */
 
 textBox.addEventListener(
     "keydown",
@@ -1412,11 +1123,14 @@ if (SpeechRecognition) {
     recognition =
         new SpeechRecognition();
 
+
     recognition.lang =
         "cs-CZ";
 
+
     recognition.continuous =
         false;
+
 
     recognition.interimResults =
         true;
@@ -1433,38 +1147,49 @@ if (SpeechRecognition) {
         micButton.classList.add(
             "listening"
         );
-
-        log(
-            "Mikrofon spuštěn."
-        );
     };
 
 
     recognition.onresult =
     event => {
 
-        let text = "";
+        let text =
+            "";
+
 
         for (
-            let i = event.resultIndex;
-            i < event.results.length;
+            let i =
+                event.resultIndex;
+
+            i <
+                event.results.length;
+
             i++
         ) {
 
             text +=
                 event.results[i][0]
-                .transcript;
+                    .transcript;
         }
 
-        if (text.trim()) {
+
+        if (
+            text.trim()
+        ) {
 
             recognized.textContent =
                 text;
 
-            if (
+
+            const lastResult =
                 event.results[
                     event.results.length - 1
-                ].isFinal
+                ];
+
+
+            if (
+                lastResult &&
+                lastResult.isFinal
             ) {
 
                 askJarvis(
@@ -1484,15 +1209,12 @@ if (SpeechRecognition) {
             "listening"
         );
 
+
         if (modelReady) {
 
             status.textContent =
                 "JARVIS PŘIPRAVEN";
         }
-
-        log(
-            "Mikrofon ukončen."
-        );
     };
 
 
@@ -1505,10 +1227,9 @@ if (SpeechRecognition) {
             "listening"
         );
 
-        log(
-            "MIC ERROR: " +
-            event.error,
-            "error"
+        console.error(
+            "Microphone error:",
+            event.error
         );
     };
 }
@@ -1526,6 +1247,7 @@ micButton.addEventListener(
             return;
         }
 
+
         if (isListening) {
 
             recognition.stop();
@@ -1536,12 +1258,10 @@ micButton.addEventListener(
 
                 recognition.start();
 
-            } catch (error) {
+            } catch(error) {
 
-                log(
-                    "MIC START ERROR: " +
-                    error.message,
-                    "error"
+                console.error(
+                    error
                 );
             }
         }
@@ -1550,7 +1270,7 @@ micButton.addEventListener(
 
 
 /* ==================================================
-   HLAS
+   JARVIS HLAS
 ================================================== */
 
 function speak(text) {
@@ -1560,24 +1280,31 @@ function speak(text) {
     )
         return;
 
+
     speechSynthesis.cancel();
+
 
     const utterance =
         new SpeechSynthesisUtterance(
             text
         );
 
+
     utterance.lang =
         "cs-CZ";
+
 
     utterance.rate =
         0.48;
 
+
     utterance.pitch =
         0.85;
 
+
     utterance.volume =
         1.0;
+
 
     speechSynthesis.speak(
         utterance
@@ -1591,43 +1318,14 @@ function speak(text) {
 
 async function startJarvis() {
 
-    try {
+    status.textContent =
+        "PŘIPRAVUJI MOZEK";
 
-        status.textContent =
-            "TESTUJI GPU";
+    response.textContent =
+        "Načítám lokální AI…";
 
-        response.textContent =
-            "Kontroluji WebGPU…";
 
-        await testWebGPU();
-
-        status.textContent =
-            "NAČÍTÁM MOZEK";
-
-        response.textContent =
-            "WebGPU funguje.\n\n" +
-            "Připravuji Qwen2.5 0.5B…";
-
-        await loadModel();
-
-    } catch (error) {
-
-        status.textContent =
-            "CHYBA";
-
-        response.textContent =
-            error?.message ||
-            String(error);
-
-        log(
-            "START ERROR: " +
-            (
-                error?.message ||
-                String(error)
-            ),
-            "error"
-        );
-    }
+    await loadModel();
 }
 
 
