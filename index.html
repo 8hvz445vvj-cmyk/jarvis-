@@ -461,6 +461,50 @@ body {
 
 
 /* =========================
+   MODEL BUTTON
+========================= */
+
+.model-button {
+
+    position: fixed;
+
+    top:
+        calc(
+            env(safe-area-inset-top)
+            + 12px
+        );
+
+    right: 15px;
+
+    z-index: 20;
+
+    border: 1px solid
+        rgba(0,255,255,.45);
+
+    background:
+        rgba(0,0,0,.65);
+
+    color:
+        rgba(0,255,255,.9);
+
+    border-radius: 12px;
+
+    padding: 8px 11px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    backdrop-filter:
+        blur(10px);
+}
+
+.model-button:active {
+    transform: scale(.95);
+}
+
+
+/* =========================
    SMALL SCREEN
 ========================= */
 
@@ -511,6 +555,14 @@ body {
 <body>
 
 <div class="app">
+
+<button
+id="modelButton"
+class="model-button"
+>
+NAČÍST MOZEK
+</button>
+
 
 <div class="main">
 
@@ -677,7 +729,7 @@ JARVIS
 class="status"
 id="status"
 >
-WEBGPU TESTUJI
+PŘIPRAVEN
 </div>
 
 
@@ -693,7 +745,7 @@ id="recognized"
 class="response"
 id="response"
 >
-Kontroluji WebGPU…
+Nejprve načti můj mozek.
 </div>
 
 
@@ -835,7 +887,7 @@ requestAnimationFrame(
 
 
 /* ==================================================
-   WEBGPU TEST
+   ELEMENTY
 ================================================== */
 
 const status =
@@ -844,143 +896,376 @@ document.getElementById("status");
 const response =
 document.getElementById("response");
 
+const recognized =
+document.getElementById("recognized");
 
-async function testWebGPU() {
+const textBox =
+document.getElementById("textBox");
 
-    status.textContent =
-        "WEBGPU TESTUJI";
+const sendButton =
+document.getElementById("sendButton");
 
-    response.textContent =
-        "Kontroluji grafický čip…";
+const micButton =
+document.getElementById("micButton");
+
+const modelButton =
+document.getElementById("modelButton");
 
 
-    /* -------------------------
-       1. WEBGPU API
-    ------------------------- */
+/* ==================================================
+   MODEL
+================================================== */
 
-    if (!navigator.gpu) {
+let model = null;
+
+let modelLoading = false;
+
+
+/*
+    DŮLEŽITÉ:
+
+    Model se NEnačítá automaticky.
+
+    Uživatel musí klepnout na
+    "NAČÍST MOZEK".
+
+    Tím zabráníme nekonečnému
+    stahování při chybě.
+*/
+
+
+async function loadModel() {
+
+    if (modelLoading)
+        return;
+
+    if (model) {
 
         status.textContent =
-            "WEBGPU CHYBÍ";
+            "MOZEK PŘIPRAVEN";
 
         response.textContent =
-            "Tento prohlížeč neposkytuje WebGPU.";
+            "JARVIS je připraven.";
 
         return;
     }
 
 
+    modelLoading = true;
+
+    modelButton.disabled = true;
+
+    modelButton.textContent =
+        "NAČÍTÁM…";
+
+    status.textContent =
+        "NAČÍTÁM MOZEK";
+
+    response.textContent =
+        "Připravuji lokální AI…";
+
+
     try {
 
-        /* -------------------------
-           2. ADAPTER
-        ------------------------- */
+        /*
+         * Pokus o použití
+         * Transformers.js.
+         *
+         * Knihovna se načte z CDN.
+         */
 
-        const adapter =
-            await navigator.gpu.requestAdapter({
-                powerPreference:
-                    "high-performance"
-            });
+        if (!window.transformers) {
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+            script.type =
+                "module";
+
+            script.textContent = `
+
+                import {
+                    pipeline,
+                    env
+                }
+                from
+                "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2/dist/transformers.min.js";
+
+                env.allowLocalModels = false;
+
+                window.transformers = {
+                    pipeline,
+                    env
+                };
+            `;
+
+            document.head.appendChild(
+                script
+            );
 
 
-        if (!adapter) {
+            /*
+             * Počkáme, až se knihovna
+             * objeví.
+             */
 
-            status.textContent =
-                "CHYBA ADAPTÉRU";
+            for (
+                let i = 0;
+                i < 100;
+                i++
+            ) {
 
-            response.textContent =
-                "WebGPU existuje, ale nebyl nalezen GPU adaptér.";
+                if (
+                    window.transformers
+                )
+                    break;
 
-            return;
+                await new Promise(
+                    resolve =>
+                        setTimeout(
+                            resolve,
+                            100
+                        )
+                );
+            }
         }
 
 
-        /* -------------------------
-           3. DEVICE
-        ------------------------- */
+        if (
+            !window.transformers
+        ) {
 
-        const device =
-            await adapter.requestDevice();
-
-
-        if (!device) {
-
-            status.textContent =
-                "CHYBA DEVICE";
-
-            response.textContent =
-                "GPU zařízení se nepodařilo vytvořit.";
-
-            return;
+            throw new Error(
+                "Nepodařilo se načíst Transformers.js."
+            );
         }
 
-
-        /* -------------------------
-           4. BUFFER TEST
-        ------------------------- */
-
-        const buffer =
-            device.createBuffer({
-
-                size: 256,
-
-                usage:
-                    GPUBufferUsage.STORAGE |
-                    GPUBufferUsage.COPY_DST,
-
-                mappedAtCreation:
-                    false
-            });
-
-
-        buffer.destroy();
-
-
-        /* -------------------------
-           HOTOVO
-        ------------------------- */
 
         status.textContent =
-            "WEBGPU FUNGUJE ✓";
-
+            "STAHUJI MODEL";
 
         response.textContent =
-            "iPhone WebGPU funguje.\n\n"
-            +
-            "GPU adaptér: OK\n"
-            +
-            "GPU device: OK\n"
-            +
-            "Buffer test: OK\n\n"
-            +
-            "Teď můžeme řešit lokální AI.";
+            "Stahuji lokální model. První načtení může trvat déle…";
 
 
-        console.log(
-            "JARVIS WebGPU TEST OK"
-        );
+        /*
+         * Lehký model určený pro
+         * běh přímo v prohlížeči.
+         */
+
+        const generator =
+            await window.transformers.pipeline(
+                "text-generation",
+                "onnx-community/Qwen2.5-0.5B-Instruct",
+                {
+                    device: "webgpu",
+
+                    dtype: "q4"
+                }
+            );
 
 
-        console.log(
-            "Adapter:",
-            adapter.info
-        );
+        model = generator;
+
+
+        status.textContent =
+            "MOZEK PŘIPRAVEN";
+
+        response.textContent =
+            "JARVIS je připraven. Můžete se ptát.";
+
+
+        modelButton.textContent =
+            "MOZEK OK";
 
 
     } catch (error) {
 
         console.error(
-            "WebGPU chyba:",
+            "MODEL ERROR:",
+            error
+        );
+
+
+        model = null;
+
+
+        status.textContent =
+            "CHYBA MODELU";
+
+
+        response.textContent =
+            "Lokální AI se nepodařilo načíst.\n\n"
+            +
+            (
+                error?.message ||
+                String(error)
+            );
+
+
+        modelButton.textContent =
+            "ZKUSIT ZNOVU";
+
+
+    } finally {
+
+        modelLoading = false;
+
+        modelButton.disabled =
+            false;
+    }
+}
+
+
+/* ==================================================
+   AI ODPOVĚĎ
+================================================== */
+
+async function askJarvis(text) {
+
+    text =
+        text.trim();
+
+
+    if (!text)
+        return;
+
+
+    recognized.textContent =
+        text;
+
+
+    if (!model) {
+
+        response.textContent =
+            "Nejdříve klepni na „NAČÍST MOZEK“.";
+
+        return;
+    }
+
+
+    status.textContent =
+        "JARVIS PŘEMÝŠLÍ";
+
+
+    response.textContent =
+        "…";
+
+
+    try {
+
+        const messages = [
+
+            {
+                role: "system",
+
+                content:
+                    "Jsi JARVIS, osobní AI asistent. "
+                    +
+                    "Odpovídej česky, stručně, přirozeně "
+                    +
+                    "a inteligentně. "
+                    +
+                    "Nepředstírej, že máš přístup k věcem, "
+                    +
+                    "ke kterým ho nemáš."
+            },
+
+            {
+                role: "user",
+
+                content: text
+            }
+
+        ];
+
+
+        const output =
+            await model(
+                messages,
+                {
+                    max_new_tokens: 180,
+
+                    temperature: 0.7,
+
+                    do_sample: true
+                }
+            );
+
+
+        let answer = "";
+
+
+        if (
+            Array.isArray(output)
+        ) {
+
+            const item =
+                output[0];
+
+
+            if (
+                item?.generated_text
+            ) {
+
+                if (
+                    Array.isArray(
+                        item.generated_text
+                    )
+                ) {
+
+                    const last =
+                        item.generated_text[
+                            item.generated_text.length - 1
+                        ];
+
+                    answer =
+                        last?.content ||
+                        "";
+                }
+
+                else {
+
+                    answer =
+                        item.generated_text;
+                }
+            }
+        }
+
+
+        if (!answer) {
+
+            answer =
+                "Nedostal jsem použitelnou odpověď.";
+        }
+
+
+        response.textContent =
+            answer;
+
+
+        status.textContent =
+            "JARVIS ODPOVÍDÁ";
+
+
+        speak(answer);
+
+
+    } catch (error) {
+
+        console.error(
+            "GENERATE ERROR:",
             error
         );
 
 
         status.textContent =
-            "WEBGPU CHYBA";
-
+            "CHYBA";
 
         response.textContent =
-            "WebGPU se nepodařilo otestovat.\n\n"
+            "Při generování odpovědi došlo k chybě.\n\n"
             +
             (
                 error?.message ||
@@ -991,15 +1276,18 @@ async function testWebGPU() {
 
 
 /* ==================================================
-   PSANÍ – ZATÍM JEN TEST
+   TLAČÍTKO MOZKU
 ================================================== */
 
-const textBox =
-document.getElementById("textBox");
+modelButton.addEventListener(
+    "click",
+    loadModel
+);
 
-const sendButton =
-document.getElementById("sendButton");
 
+/* ==================================================
+   PSANÍ
+================================================== */
 
 sendButton.addEventListener(
     "click",
@@ -1013,38 +1301,95 @@ sendButton.addEventListener(
             return;
 
 
-        document.getElementById(
-            "recognized"
-        ).textContent =
-            text;
+        askJarvis(text);
 
 
-        response.textContent =
-            "WebGPU test je aktivní.\n"
-            +
-            "Lokální AI zatím není načtená.";
+        textBox.value =
+            "";
+    }
+);
 
 
-        textBox.value = "";
+/*
+ * Enter odešle zprávu.
+ * Shift + Enter vytvoří nový řádek.
+ */
+
+textBox.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+            &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendButton.click();
+        }
     }
 );
 
 
 /* ==================================================
-   MIKROFON – ZATÍM TEST
+   HLAS
 ================================================== */
 
-const micButton =
-document.getElementById("micButton");
+function speak(text) {
+
+    if (
+        !("speechSynthesis" in window)
+    )
+        return;
+
+
+    window.speechSynthesis.cancel();
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    utterance.lang =
+        "cs-CZ";
+
+
+    utterance.rate =
+        0.48;
+
+
+    utterance.pitch =
+        0.85;
+
+
+    utterance.volume =
+        1;
+
+
+    window.speechSynthesis.speak(
+        utterance
+    );
+}
+
+
+/* ==================================================
+   MIKROFON
+================================================== */
 
 const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
 
-let recognition = null;
+let recognition =
+    null;
 
-let isListening = false;
+let isListening =
+    false;
 
 
 if (SpeechRecognition) {
@@ -1052,11 +1397,14 @@ if (SpeechRecognition) {
     recognition =
         new SpeechRecognition();
 
+
     recognition.lang =
         "cs-CZ";
 
+
     recognition.continuous =
         false;
+
 
     recognition.interimResults =
         true;
@@ -1065,10 +1413,13 @@ if (SpeechRecognition) {
     recognition.onstart =
     () => {
 
-        isListening = true;
+        isListening =
+            true;
+
 
         status.textContent =
             "POSLOUCHÁM";
+
 
         micButton.classList.add(
             "listening"
@@ -1079,26 +1430,31 @@ if (SpeechRecognition) {
     recognition.onresult =
     event => {
 
-        let text = "";
+        let text =
+            "";
 
 
         for (
-            let i = event.resultIndex;
-            i < event.results.length;
+            let i =
+                event.resultIndex;
+
+            i <
+                event.results.length;
+
             i++
         ) {
 
             text +=
                 event.results[i][0]
-                .transcript;
+                    .transcript;
         }
 
 
-        if (text.trim()) {
+        if (
+            text.trim()
+        ) {
 
-            document.getElementById(
-                "recognized"
-            ).textContent =
+            recognized.textContent =
                 text;
         }
     };
@@ -1107,25 +1463,61 @@ if (SpeechRecognition) {
     recognition.onend =
     () => {
 
-        isListening = false;
+        isListening =
+            false;
+
 
         micButton.classList.remove(
             "listening"
         );
 
-        status.textContent =
-            "WEBGPU FUNGUJE ✓";
+
+        const text =
+            recognized.textContent
+                .trim();
+
+
+        if (
+            text
+            &&
+            text !==
+                "ŘEKNI NĚCO…"
+        ) {
+
+            askJarvis(text);
+        }
+
+        else {
+
+            status.textContent =
+                model
+                    ? "MOZEK PŘIPRAVEN"
+                    : "PŘIPRAVEN";
+        }
     };
 
 
     recognition.onerror =
-    () => {
+    event => {
 
-        isListening = false;
+        console.error(
+            event
+        );
+
+
+        isListening =
+            false;
+
 
         micButton.classList.remove(
             "listening"
         );
+
+
+        status.textContent =
+            model
+                ? "MOZEK PŘIPRAVEN"
+                : "PŘIPRAVEN";
     };
 }
 
@@ -1137,7 +1529,7 @@ micButton.addEventListener(
         if (!recognition) {
 
             response.textContent =
-                "Diktování není v tomto prohlížeči dostupné.";
+                "Rozpoznávání řeči není v tomto prohlížeči dostupné.";
 
             return;
         }
@@ -1148,6 +1540,10 @@ micButton.addEventListener(
             recognition.stop();
 
         } else {
+
+            recognized.textContent =
+                "POSLOUCHÁM…";
+
 
             try {
 
@@ -1160,13 +1556,6 @@ micButton.addEventListener(
         }
     }
 );
-
-
-/* ==================================================
-   START TESTU
-================================================== */
-
-testWebGPU();
 
 </script>
 
