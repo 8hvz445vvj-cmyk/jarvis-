@@ -526,26 +526,21 @@ id="core"
 
 <div class="glow"></div>
 
-
 <svg
 class="ring outer"
 viewBox="0 0 285 285"
 >
-
 <circle
 cx="142.5"
 cy="142.5"
 r="142"
 />
-
 </svg>
-
 
 <svg
 class="ring outer-segment"
 viewBox="0 0 270 270"
 >
-
 <circle
 cx="135"
 cy="135"
@@ -557,15 +552,12 @@ stroke-linecap="round"
 stroke-dasharray="185 815"
 pathLength="1000"
 />
-
 </svg>
-
 
 <svg
 class="ring outer-segment-2"
 viewBox="0 0 270 270"
 >
-
 <circle
 cx="135"
 cy="135"
@@ -578,15 +570,12 @@ stroke-dasharray="125 875"
 stroke-dashoffset="-480"
 pathLength="1000"
 />
-
 </svg>
-
 
 <svg
 class="ring outer-segment-3"
 viewBox="0 0 270 270"
 >
-
 <circle
 cx="135"
 cy="135"
@@ -599,29 +588,23 @@ stroke-dasharray="100 900"
 stroke-dashoffset="-780"
 pathLength="1000"
 />
-
 </svg>
-
 
 <svg
 class="ring middle"
 viewBox="0 0 205 205"
 >
-
 <circle
 cx="102.5"
 cy="102.5"
 r="100"
 />
-
 </svg>
-
 
 <svg
 class="ring inner"
 viewBox="0 0 190 190"
 >
-
 <circle
 cx="95"
 cy="95"
@@ -634,15 +617,12 @@ stroke-dasharray="150 850"
 stroke-dashoffset="-120"
 pathLength="1000"
 />
-
 </svg>
-
 
 <svg
 class="ring inner-2"
 viewBox="0 0 190 190"
 >
-
 <circle
 cx="95"
 cy="95"
@@ -655,9 +635,7 @@ stroke-dasharray="155 845"
 stroke-dashoffset="-580"
 pathLength="1000"
 />
-
 </svg>
-
 
 <div class="center-glow"></div>
 
@@ -768,8 +746,7 @@ aria-label="Odeslat"
 ================================================== */
 
 import {
-    CreateMLCEngine,
-    prebuiltAppConfig
+    CreateMLCEngine
 } from "https://esm.run/@mlc-ai/web-llm";
 
 
@@ -804,9 +781,7 @@ document.getElementById("micButton");
 ================================================== */
 
 let rotation1 = 0;
-
 let rotation2 = 0;
-
 let lastTime =
 performance.now();
 
@@ -818,13 +793,11 @@ function animate(time) {
 
     lastTime = time;
 
-
     rotation1 +=
         45 * delta;
 
     rotation2 -=
         72 * delta;
-
 
     const pulse =
         1 +
@@ -834,7 +807,6 @@ function animate(time) {
             .55
         ) *
         .05;
-
 
     core.style.setProperty(
         "--r1",
@@ -851,12 +823,10 @@ function animate(time) {
         pulse
     );
 
-
     requestAnimationFrame(
         animate
     );
 }
-
 
 requestAnimationFrame(
     animate
@@ -864,88 +834,28 @@ requestAnimationFrame(
 
 
 /* ==================================================
-   WEBGPU
+   MODEL
 ================================================== */
 
-async function checkWebGPU() {
+/*
+ * Qwen3 1.7B
+ *
+ * Oficiálně vedený v MLC iPhone konfiguraci.
+ *
+ * q4f16_1
+ * context 2048
+ * prefill 128
+ */
 
-    if (!navigator.gpu) {
+const MODEL =
+    "Qwen3-1.7B-q4f16_1-MLC";
 
-        throw new Error(
-            "WebGPU není v tomto prohlížeči dostupné."
-        );
-    }
-
-
-    const adapter =
-        await navigator.gpu.requestAdapter({
-            powerPreference:
-                "high-performance"
-        });
-
-
-    if (!adapter) {
-
-        throw new Error(
-            "GPU adaptér nebyl nalezen."
-        );
-    }
-
-
-    const device =
-        await adapter.requestDevice();
-
-
-    if (!device) {
-
-        throw new Error(
-            "GPU zařízení se nepodařilo vytvořit."
-        );
-    }
-
-
-    device.destroy?.();
-
-    return true;
-}
-
-
-/* ==================================================
-   AI
-================================================== */
 
 let engine = null;
 
 let modelReady = false;
 
 let loading = false;
-
-
-/*
- * DŮLEŽITÉ:
- *
- * Model hledáme přímo v prebuiltAppConfig
- * WebLLM.
- *
- * Tím se nepoužívá ručně zadaná .wasm knihovna.
- */
-
-const MODEL_PATTERN =
-    "Qwen2.5-0.5B-Instruct";
-
-
-function findQwenModel() {
-
-    const models =
-        prebuiltAppConfig.model_list || [];
-
-
-    return models.find(
-        model =>
-            model.model_id ===
-            "Qwen2.5-0.5B-Instruct-q4f16_1-MLC"
-    );
-}
 
 
 /* ==================================================
@@ -957,91 +867,35 @@ async function loadModel() {
     if (loading || modelReady)
         return;
 
-
     loading = true;
 
+    status.textContent =
+        "NAČÍTÁM MOZEK";
+
+    response.textContent =
+        "Stahuji lokální AI…";
 
     try {
 
-        status.textContent =
-            "KONTROLUJI GPU";
-
-        response.textContent =
-            "Kontroluji WebGPU…";
-
-
-        await checkWebGPU();
-
-
-        status.textContent =
-            "PŘIPRAVUJI MOZEK";
-
-        response.textContent =
-            "Hledám Qwen 0.5B…";
-
-
-        const model =
-            findQwenModel();
-
-
-        if (!model) {
-
-            throw new Error(
-                "Qwen2.5 0.5B není v této verzi WebLLM registrován."
-            );
-        }
-
-
-        const modelId =
-            model.model_id;
-
-
-        status.textContent =
-            "NAČÍTÁM MOZEK";
-
-
-        response.textContent =
-            "Stahuji lokální AI…";
-
-
-        /*
-         * Používáme přímo vestavěnou
-         * konfiguraci WebLLM.
-         *
-         * WebLLM tedy samo použije
-         * správný model + správnou
-         * modelovou knihovnu.
-         */
-
         engine =
             await CreateMLCEngine(
-                modelId,
+                MODEL,
                 {
-
-                    appConfig:
-                        prebuiltAppConfig,
-
 
                     initProgressCallback:
                     progress => {
 
-                        if (!progress)
-                            return;
-
-
-                        const percent =
+                        if (
+                            progress &&
                             typeof progress.progress ===
                             "number"
-                                ? Math.round(
+                        ) {
+
+                            const percent =
+                                Math.round(
                                     progress.progress *
                                     100
-                                )
-                                : null;
-
-
-                        if (
-                            percent !== null
-                        ) {
+                                );
 
                             status.textContent =
                                 "MOZEK " +
@@ -1053,51 +907,34 @@ async function loadModel() {
                                 percent +
                                 "%";
                         }
-                        else if (
-                            progress.text
-                        ) {
-
-                            response.textContent =
-                                progress.text;
-                        }
                     }
+
                 }
             );
 
 
         modelReady = true;
 
-
         status.textContent =
             "JARVIS PŘIPRAVEN";
 
-
         response.textContent =
             "Lokální AI je připravená.";
-
 
     } catch (error) {
 
         modelReady = false;
 
-
         status.textContent =
             "CHYBA MODELU";
 
-
         response.textContent =
-            "Lokální model se nepodařilo načíst.\n\n" +
-            (
-                error?.message ||
-                String(error)
-            );
-
+            "Lokální model se nepodařilo načíst.";
 
         console.error(
             "JARVIS MODEL ERROR:",
             error
         );
-
 
     } finally {
 
@@ -1107,7 +944,7 @@ async function loadModel() {
 
 
 /* ==================================================
-   JARVIS ODPOVĚĎ
+   JARVIS
 ================================================== */
 
 async function askJarvis(text) {
@@ -1132,12 +969,19 @@ async function askJarvis(text) {
     status.textContent =
         "JARVIS PŘEMÝŠLÍ";
 
-
     response.textContent =
         "Přemýšlím…";
 
 
     try {
+
+        /*
+         * Qwen3 umí thinking mode.
+         *
+         * Tady ho vypínáme:
+         * chceme rychlého JARVISe,
+         * ne dlouhé uvažování.
+         */
 
         const result =
             await engine.chat.completions.create({
@@ -1150,32 +994,39 @@ async function askJarvis(text) {
                         content:
                             "Jsi JARVIS, osobní AI asistent. " +
                             "Vždy odpovídej česky. " +
-                            "Odpovídej přirozeně, srozumitelně a stručně. " +
-                            "Nikdy nevkládej náhodný text. " +
-                            "Pokud něč nevíš, řekni to."
+                            "Buď přesný, přirozený a stručný. " +
+                            "Nevymýšlej si informace. " +
+                            "Když něco nevíš, řekni to. " +
+                            "Nepoužívej žádné <think> bloky."
                     },
 
                     {
                         role: "user",
 
                         content:
-                            text
+                            text +
+                            "\n/no_think"
                     }
 
                 ],
 
-                temperature:
-                    0.35,
+                temperature: 0.7,
 
-                top_p:
-                    0.85,
+                top_p: 0.8,
 
-                max_tokens:
-                    160
+                max_tokens: 160,
+
+                extra_body: {
+
+                    enable_thinking:
+                        false
+
+                }
+
             });
 
 
-        const answer =
+        let answer =
             result
             ?.choices?.[0]
             ?.message?.content
@@ -1190,9 +1041,28 @@ async function askJarvis(text) {
         }
 
 
+        /*
+         * Bezpečnostní odstranění
+         * případného thinking výstupu.
+         */
+
+        answer =
+            answer.replace(
+                /<think>[\s\S]*?<\/think>/gi,
+                ""
+            ).trim();
+
+
+        if (!answer) {
+
+            throw new Error(
+                "Model vytvořil pouze interní uvažování."
+            );
+        }
+
+
         response.textContent =
             answer;
-
 
         status.textContent =
             "JARVIS ODPOVÍDÁ";
@@ -1208,19 +1078,19 @@ async function askJarvis(text) {
             error
         );
 
-
         status.textContent =
             "CHYBA ODPOVĚDI";
 
-
         response.textContent =
             "Nepodařilo se získat odpověď.";
+
     }
+
 }
 
 
 /* ==================================================
-   PSANÍ
+   ODESLÁNÍ TEXTU
 ================================================== */
 
 sendButton.addEventListener(
@@ -1230,20 +1100,22 @@ sendButton.addEventListener(
         const text =
             textBox.value.trim();
 
-
         if (!text)
             return;
 
-
         textBox.value = "";
-
 
         await askJarvis(
             text
         );
+
     }
 );
 
+
+/* ==================================================
+   ENTER
+================================================== */
 
 textBox.addEventListener(
     "keydown",
@@ -1257,7 +1129,9 @@ textBox.addEventListener(
             event.preventDefault();
 
             sendButton.click();
+
         }
+
     }
 );
 
@@ -1299,14 +1173,13 @@ if (SpeechRecognition) {
 
         isListening = true;
 
-
         status.textContent =
             "POSLOUCHÁM";
-
 
         micButton.classList.add(
             "listening"
         );
+
     };
 
 
@@ -1325,6 +1198,7 @@ if (SpeechRecognition) {
             text +=
                 event.results[i][0]
                 .transcript;
+
         }
 
 
@@ -1341,14 +1215,18 @@ if (SpeechRecognition) {
 
 
             if (
+                lastResult &&
                 lastResult.isFinal
             ) {
 
                 askJarvis(
                     text.trim()
                 );
+
             }
+
         }
+
     };
 
 
@@ -1356,7 +1234,6 @@ if (SpeechRecognition) {
     () => {
 
         isListening = false;
-
 
         micButton.classList.remove(
             "listening"
@@ -1367,26 +1244,28 @@ if (SpeechRecognition) {
 
             status.textContent =
                 "JARVIS PŘIPRAVEN";
+
         }
+
     };
 
 
     recognition.onerror =
     event => {
 
+        isListening = false;
+
+        micButton.classList.remove(
+            "listening"
+        );
+
         console.error(
             "MIC ERROR:",
             event.error
         );
 
-
-        isListening = false;
-
-
-        micButton.classList.remove(
-            "listening"
-        );
     };
+
 }
 
 
@@ -1418,8 +1297,11 @@ micButton.addEventListener(
                 console.error(
                     error
                 );
+
             }
+
         }
+
     }
 );
 
@@ -1450,7 +1332,7 @@ function speak(text) {
 
 
     utterance.rate =
-        0.48;
+        0.52;
 
 
     utterance.pitch =
@@ -1458,12 +1340,13 @@ function speak(text) {
 
 
     utterance.volume =
-        1;
+        1.0;
 
 
     speechSynthesis.speak(
         utterance
     );
+
 }
 
 
