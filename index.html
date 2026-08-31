@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1,
-viewport-fit=cover">
+      content="width=device-width,
+               initial-scale=1,
+               viewport-fit=cover">
 
 <meta name="apple-mobile-web-app-capable"
-content="yes">
+      content="yes">
 
 <meta name="apple-mobile-web-app-status-bar-style"
-content="black">
+      content="black">
 
 <meta name="apple-mobile-web-app-title"
-content="JARVIS">
+      content="JARVIS">
 
 <title>JARVIS</title>
 
@@ -461,6 +461,73 @@ body {
 
 
 /* =========================
+   DIAGNOSTIKA
+========================= */
+
+#diagnostics {
+    position: fixed;
+
+    left: 10px;
+    right: 10px;
+    bottom: 80px;
+
+    max-height: 180px;
+
+    overflow-y: auto;
+
+    padding: 10px 12px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(0,0,0,.92);
+
+    border:
+        1px solid
+        rgba(0,255,255,.30);
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        monospace;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+    z-index: 100;
+
+    display: block;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.diag-title {
+    color: cyan;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+.diag-error {
+    color: #ff5555;
+}
+
+.diag-ok {
+    color: #55ffcc;
+}
+
+.diag-warn {
+    color: #ffd166;
+}
+
+
+/* =========================
    SMALL SCREEN
 ========================= */
 
@@ -519,31 +586,27 @@ body {
 
 <!-- JARVIS CORE -->
 
-<div
-class="core"
-id="core"
->
+<div class="core" id="core">
 
 <div class="glow"></div>
 
+
 <svg
 class="ring outer"
-viewBox="0 0 285 285"
->
+viewBox="0 0 285 285">
 
 <circle
 cx="142.5"
 cy="142.5"
-r="142"
-/>
+r="142">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring outer-segment"
-viewBox="0 0 270 270"
->
+viewBox="0 0 270 270">
 
 <circle
 cx="135"
@@ -554,16 +617,15 @@ stroke="rgba(0,255,255,.9)"
 stroke-width="3"
 stroke-linecap="round"
 stroke-dasharray="185 815"
-pathLength="1000"
-/>
+pathLength="1000">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring outer-segment-2"
-viewBox="0 0 270 270"
->
+viewBox="0 0 270 270">
 
 <circle
 cx="135"
@@ -575,16 +637,15 @@ stroke-width="2"
 stroke-linecap="round"
 stroke-dasharray="125 875"
 stroke-dashoffset="-480"
-pathLength="1000"
-/>
+pathLength="1000">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring outer-segment-3"
-viewBox="0 0 270 270"
->
+viewBox="0 0 270 270">
 
 <circle
 cx="135"
@@ -596,30 +657,28 @@ stroke-width="3"
 stroke-linecap="round"
 stroke-dasharray="100 900"
 stroke-dashoffset="-780"
-pathLength="1000"
-/>
+pathLength="1000">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring middle"
-viewBox="0 0 205 205"
->
+viewBox="0 0 205 205">
 
 <circle
 cx="102.5"
 cy="102.5"
-r="100"
-/>
+r="100">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring inner"
-viewBox="0 0 190 190"
->
+viewBox="0 0 190 190">
 
 <circle
 cx="95"
@@ -631,16 +690,15 @@ stroke-width="4"
 stroke-linecap="round"
 stroke-dasharray="150 850"
 stroke-dashoffset="-120"
-pathLength="1000"
-/>
+pathLength="1000">
+</circle>
 
 </svg>
 
 
 <svg
 class="ring inner-2"
-viewBox="0 0 190 190"
->
+viewBox="0 0 190 190">
 
 <circle
 cx="95"
@@ -652,8 +710,8 @@ stroke-width="2"
 stroke-linecap="round"
 stroke-dasharray="155 845"
 stroke-dashoffset="-580"
-pathLength="1000"
-/>
+pathLength="1000">
+</circle>
 
 </svg>
 
@@ -672,25 +730,22 @@ JARVIS
 
 <div
 class="status"
-id="status"
->
-PŘIPRAVUJI MOZEK
+id="status">
+DIAGNOSTIKA
 </div>
 
 
 <div
 class="recognized"
-id="recognized"
->
+id="recognized">
 ŘEKNI NĚCO…
 </div>
 
 
 <div
 class="response"
-id="response"
->
-Načítám lokální AI…
+id="response">
+Kontroluji systém…
 </div>
 
 
@@ -705,40 +760,38 @@ Načítám lokální AI…
 id="textBox"
 class="text-box"
 rows="1"
-placeholder="Napiš JARVISovi…"
-></textarea>
+placeholder="Napiš JARVISovi…">
+</textarea>
 
 
 <button
 id="micButton"
 class="button mic"
-aria-label="Mikrofon"
->
+aria-label="Mikrofon">
 
 <svg
 class="mic-svg"
-viewBox="0 0 24 24"
->
+viewBox="0 0 24 24">
 
 <rect
 x="9"
 y="3"
 width="6"
 height="11"
-rx="3"
-/>
+rx="3">
+</rect>
 
 <path
-d="M5 11a7 7 0 0 0 14 0"
-/>
+d="M5 11a7 7 0 0 0 14 0">
+</path>
 
 <path
-d="M12 18v3"
-/>
+d="M12 18v3">
+</path>
 
 <path
-d="M9 21h6"
-/>
+d="M9 21h6">
+</path>
 
 </svg>
 
@@ -748,9 +801,10 @@ d="M9 21h6"
 <button
 id="sendButton"
 class="button send"
-aria-label="Odeslat"
->
+aria-label="Odeslat">
+
 ↑
+
 </button>
 
 </div>
@@ -760,19 +814,26 @@ aria-label="Odeslat"
 </div>
 
 
-<script type="module">
+<!-- DIAGNOSTIKA -->
+
+<div id="diagnostics">
+
+<div class="diag-title">
+JARVIS SYSTEM DIAGNOSTICS
+</div>
+
+</div>
+
+
+<script>
 
 /* ==================================================
-   JARVIS
-   WLLAMA + QWEN2.5 3B
+   JARVIS STABILNÍ DIAGNOSTICKÁ VERZE
+   BEZ WEBLLM
+   BEZ EXTERNÍHO IMPORTU
 ================================================== */
 
-import {
-    Wllama
-} from "https://esm.sh/@wllama/wllama@3.6.1";
-
-import WasmFromCDN from
-"https://esm.sh/@wllama/wllama@3.6.1/esm/wasm-from-cdn.js";
+"use strict";
 
 
 /* ==================================================
@@ -780,29 +841,168 @@ import WasmFromCDN from
 ================================================== */
 
 const core =
-document.getElementById("core");
+    document.getElementById("core");
 
 const status =
-document.getElementById("status");
+    document.getElementById("status");
 
 const response =
-document.getElementById("response");
+    document.getElementById("response");
 
 const recognized =
-document.getElementById("recognized");
+    document.getElementById("recognized");
 
 const textBox =
-document.getElementById("textBox");
+    document.getElementById("textBox");
 
 const sendButton =
-document.getElementById("sendButton");
+    document.getElementById("sendButton");
 
 const micButton =
-document.getElementById("micButton");
+    document.getElementById("micButton");
+
+const diagnostics =
+    document.getElementById("diagnostics");
 
 
 /* ==================================================
-   ANIMACE
+   DIAGNOSTIKA
+================================================== */
+
+function log(message, type = "") {
+
+    const line =
+        document.createElement("div");
+
+    const time =
+        new Date().toLocaleTimeString(
+            "cs-CZ"
+        );
+
+    line.textContent =
+        "[" + time + "] " + message;
+
+    if (type === "error") {
+        line.className =
+            "diag-error";
+    }
+
+    if (type === "ok") {
+        line.className =
+            "diag-ok";
+    }
+
+    if (type === "warn") {
+        line.className =
+            "diag-warn";
+    }
+
+    diagnostics.appendChild(line);
+
+    diagnostics.scrollTop =
+        diagnostics.scrollHeight;
+
+    console.log(
+        "[JARVIS]",
+        message
+    );
+}
+
+
+/* ==================================================
+   CHYTÁNÍ JAVASCRIPT CHYB
+================================================== */
+
+window.addEventListener(
+    "error",
+    event => {
+
+        log(
+            "JS ERROR: " +
+            event.message +
+            " | řádek " +
+            event.lineno,
+            "error"
+        );
+
+    }
+);
+
+
+/* ==================================================
+   CHYTÁNÍ PROMISE CHYB
+================================================== */
+
+window.addEventListener(
+    "unhandledrejection",
+    event => {
+
+        const reason =
+            event.reason;
+
+        log(
+            "PROMISE ERROR: " +
+            (
+                reason?.message ||
+                String(reason)
+            ),
+            "error"
+        );
+
+    }
+);
+
+
+/* ==================================================
+   CHYTÁNÍ CHYB NAČÍTÁNÍ
+================================================== */
+
+window.addEventListener(
+    "error",
+    event => {
+
+        const target =
+            event.target;
+
+        if (
+            target &&
+            target !== window
+        ) {
+
+            const name =
+                target.tagName ||
+                "UNKNOWN";
+
+            const source =
+                target.src ||
+                target.href ||
+                "";
+
+            log(
+                "LOAD ERROR: " +
+                name +
+                " " +
+                source,
+                "error"
+            );
+        }
+
+    },
+    true
+);
+
+
+/* ==================================================
+   START
+================================================== */
+
+log(
+    "JARVIS se spouští..."
+);
+
+
+/* ==================================================
+   KULIČKA
 ================================================== */
 
 let rotation1 = 0;
@@ -810,7 +1010,7 @@ let rotation1 = 0;
 let rotation2 = 0;
 
 let lastTime =
-performance.now();
+    performance.now();
 
 
 function animate(time) {
@@ -818,7 +1018,9 @@ function animate(time) {
     const delta =
         (time - lastTime) / 1000;
 
-    lastTime = time;
+    lastTime =
+        time;
+
 
     rotation1 +=
         45 * delta;
@@ -826,14 +1028,16 @@ function animate(time) {
     rotation2 -=
         72 * delta;
 
+
     const pulse =
         1 +
         Math.sin(
             time / 1000 *
             Math.PI *
-            .55
+            0.55
         ) *
-        .05;
+        0.05;
+
 
     core.style.setProperty(
         "--r1",
@@ -850,325 +1054,158 @@ function animate(time) {
         pulse
     );
 
+
     requestAnimationFrame(
         animate
     );
 }
+
 
 requestAnimationFrame(
     animate
 );
 
 
-/* ==================================================
-   WLLAMA
-================================================== */
-
-let wllama = null;
-
-let modelReady = false;
-
-let loading = false;
-
-
-/*
- * Menší 986 MB distribuce.
- *
- * Repo:
- * second-state/Qwen2.5-3B-Instruct-GGUF
- *
- * Model:
- * Qwen2.5-3B-Instruct-Q4_K_M.gguf
- */
-
-const MODEL_REPO =
-    "second-state/Qwen2.5-3B-Instruct-GGUF";
-
-const MODEL_FILE =
-    "Qwen2.5-3B-Instruct-Q4_K_M.gguf";
+log(
+    "Animace JARVIS CORE OK",
+    "ok"
+);
 
 
 /* ==================================================
-   NAČTENÍ MODELU
+   WEBGPU DIAGNOSTIKA
 ================================================== */
 
-async function loadModel() {
+async function checkWebGPU() {
 
-    if (loading || modelReady)
-        return;
+    log(
+        "Kontroluji WebGPU..."
+    );
 
-    loading = true;
 
-    status.textContent =
-        "NAČÍTÁM MOZEK";
+    if (
+        !("gpu" in navigator)
+    ) {
 
-    response.textContent =
-        "Připravuji lokální AI…";
+        log(
+            "WebGPU API není dostupné.",
+            "warn"
+        );
+
+        return false;
+    }
+
+
+    log(
+        "WebGPU API nalezeno.",
+        "ok"
+    );
 
 
     try {
 
-        /*
-         * CDN WASM konfigurace.
-         *
-         * Wllama používá WebGPU automaticky
-         * v podporovaném prostředí.
-         */
+        const adapter =
+            await navigator.gpu.requestAdapter({
+                powerPreference:
+                    "high-performance"
+            });
 
-        wllama =
-            new Wllama(
-                WasmFromCDN,
-                {
-                    parallelDownloads: 2,
-                    allowOffline: true
-                }
+
+        if (!adapter) {
+
+            log(
+                "WebGPU adaptér nebyl nalezen.",
+                "warn"
             );
 
+            return false;
+        }
 
-        /*
-         * Na iPhonu nezačínáme s plným
-         * GPU offloadem.
-         *
-         * 4 vrstvy = výrazně menší
-         * nárok na GPU paměť.
-         */
 
-        await wllama.loadModelFromHF(
-            {
-                repo:
-                    MODEL_REPO,
-
-                file:
-                    MODEL_FILE
-            },
-            {
-
-                n_gpu_layers: 4,
-
-                n_ctx: 1024,
-
-                n_batch: 32,
-
-                n_threads: 2,
-
-                progressCallback:
-                    ({ loaded, total }) => {
-
-                        if (
-                            total > 0
-                        ) {
-
-                            const percent =
-                                Math.round(
-                                    (
-                                        loaded /
-                                        total
-                                    ) * 100
-                                );
-
-                            status.textContent =
-                                "MOZEK " +
-                                percent +
-                                "%";
-
-                            response.textContent =
-                                "Načítám lokální AI…\n" +
-                                percent +
-                                "%";
-                        }
-                    }
-            }
+        log(
+            "WebGPU adaptér OK.",
+            "ok"
         );
 
 
-        modelReady = true;
+        if (adapter.info) {
 
-        loading = false;
+            log(
+                "GPU vendor: " +
+                (
+                    adapter.info.vendor ||
+                    "unknown"
+                )
+            );
 
-        status.textContent =
-            "JARVIS PŘIPRAVEN";
+            log(
+                "GPU architecture: " +
+                (
+                    adapter.info.architecture ||
+                    "unknown"
+                )
+            );
 
-        response.textContent =
-            "Lokální AI je připravená.";
+            log(
+                "GPU device: " +
+                (
+                    adapter.info.device ||
+                    "unknown"
+                )
+            );
+        }
 
+
+        const device =
+            await adapter.requestDevice();
+
+
+        if (!device) {
+
+            log(
+                "GPU device se nepodařilo vytvořit.",
+                "error"
+            );
+
+            return false;
+        }
+
+
+        log(
+            "WebGPU device OK.",
+            "ok"
+        );
+
+
+        device.destroy?.();
+
+
+        log(
+            "WebGPU test dokončen.",
+            "ok"
+        );
+
+
+        return true;
 
     } catch (error) {
 
-        loading = false;
-
-        modelReady = false;
-
-        console.error(
-            "Wllama error:",
-            error
-        );
-
-        status.textContent =
-            "CHYBA MODELU";
-
-        response.textContent =
-            "Model se nepodařilo spustit.\n\n" +
+        log(
+            "WebGPU ERROR: " +
             (
                 error?.message ||
                 String(error)
-            );
-    }
-}
-
-
-/* ==================================================
-   JARVIS ODPOVĚĎ
-================================================== */
-
-async function askJarvis(text) {
-
-    if (!text)
-        return;
-
-    recognized.textContent =
-        text;
-
-
-    if (!modelReady) {
-
-        response.textContent =
-            "Mozek ještě není připraven.";
-
-        return;
-    }
-
-
-    status.textContent =
-        "JARVIS PŘEMÝŠLÍ";
-
-    response.textContent =
-        "Přemýšlím…";
-
-
-    try {
-
-        const result =
-            await wllama.createChatCompletion(
-                {
-
-                    messages: [
-
-                        {
-                            role: "system",
-
-                            content:
-                                "Jsi JARVIS, osobní AI asistent. " +
-                                "Odpovídej vždy česky. " +
-                                "Buď stručný, přirozený a přesný. " +
-                                "Nikdy nevymýšlej nesmyslné věty. " +
-                                "Pokud něco nevíš, řekni to."
-                        },
-
-                        {
-                            role: "user",
-
-                            content:
-                                text
-                        }
-
-                    ],
-
-                    temperature:
-                        0.5,
-
-                    top_k:
-                        40,
-
-                    top_p:
-                        0.9,
-
-                    max_tokens:
-                        120
-                }
-            );
-
-
-        const answer =
-            result
-            ?.choices?.[0]
-            ?.message?.content
-            ?.trim();
-
-
-        if (!answer) {
-
-            throw new Error(
-                "Model nevrátil odpověď."
-            );
-        }
-
-
-        response.textContent =
-            answer;
-
-        status.textContent =
-            "JARVIS ODPOVÍDÁ";
-
-
-        speak(answer);
-
-
-    } catch (error) {
-
-        console.error(
-            "Inference error:",
-            error
+            ),
+            "error"
         );
 
-        status.textContent =
-            "CHYBA ODPOVĚDI";
-
-        response.textContent =
-            "Nepodařilo se získat odpověď.";
+        return false;
     }
 }
 
 
 /* ==================================================
-   TEXT
-================================================== */
-
-sendButton.addEventListener(
-    "click",
-    async () => {
-
-        const text =
-            textBox.value.trim();
-
-        if (!text)
-            return;
-
-        textBox.value = "";
-
-        await askJarvis(text);
-    }
-);
-
-
-textBox.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Enter" &&
-            !event.shiftKey
-        ) {
-
-            event.preventDefault();
-
-            sendButton.click();
-        }
-    }
-);
-
-
-/* ==================================================
-   MIKROFON
+   SPEECH RECOGNITION
 ================================================== */
 
 const SpeechRecognition =
@@ -1183,14 +1220,23 @@ let isListening = false;
 
 if (SpeechRecognition) {
 
+    log(
+        "Speech Recognition API nalezeno.",
+        "ok"
+    );
+
+
     recognition =
         new SpeechRecognition();
+
 
     recognition.lang =
         "cs-CZ";
 
+
     recognition.continuous =
         false;
+
 
     recognition.interimResults =
         true;
@@ -1199,13 +1245,19 @@ if (SpeechRecognition) {
     recognition.onstart =
     () => {
 
-        isListening = true;
+        isListening =
+            true;
 
         status.textContent =
             "POSLOUCHÁM";
 
         micButton.classList.add(
             "listening"
+        );
+
+        log(
+            "Mikrofon spuštěn.",
+            "ok"
         );
     };
 
@@ -1217,18 +1269,14 @@ if (SpeechRecognition) {
 
 
         for (
-            let i =
-                event.resultIndex;
-
-            i <
-                event.results.length;
-
+            let i = event.resultIndex;
+            i < event.results.length;
             i++
         ) {
 
             text +=
                 event.results[i][0]
-                .transcript;
+                    .transcript;
         }
 
 
@@ -1237,58 +1285,62 @@ if (SpeechRecognition) {
             recognized.textContent =
                 text;
 
-
-            const last =
-                event.results[
-                    event.results.length - 1
-                ];
-
-
-            if (
-                last.isFinal
-            ) {
-
-                askJarvis(
-                    text.trim()
-                );
-            }
         }
+
     };
 
 
     recognition.onend =
     () => {
 
-        isListening = false;
+        isListening =
+            false;
 
         micButton.classList.remove(
             "listening"
         );
 
-        if (modelReady) {
+        status.textContent =
+            "JARVIS PŘIPRAVEN";
 
-            status.textContent =
-                "JARVIS PŘIPRAVEN";
-        }
+        log(
+            "Mikrofon ukončen."
+        );
     };
 
 
     recognition.onerror =
     event => {
 
-        isListening = false;
+        isListening =
+            false;
 
         micButton.classList.remove(
             "listening"
         );
 
-        console.error(
-            "Microphone:",
-            event.error
+        status.textContent =
+            "CHYBA MIKROFONU";
+
+        log(
+            "MIC ERROR: " +
+            event.error,
+            "error"
         );
     };
+
+} else {
+
+    log(
+        "Speech Recognition není v tomto prohlížeči dostupné.",
+        "warn"
+    );
 }
 
+
+/* ==================================================
+   MIKROFON BUTTON
+================================================== */
 
 micButton.addEventListener(
     "click",
@@ -1315,73 +1367,191 @@ micButton.addEventListener(
 
             } catch (error) {
 
-                console.error(
-                    error
+                log(
+                    "MIC START ERROR: " +
+                    error.message,
+                    "error"
                 );
             }
         }
+
     }
 );
 
 
 /* ==================================================
-   ČESKÝ HLAS
+   TEXTOVÝ VSTUP
 ================================================== */
 
-function speak(text) {
+function handleText(text) {
 
-    if (
-        !("speechSynthesis" in window)
-    )
+    if (!text)
         return;
 
 
-    speechSynthesis.cancel();
+    recognized.textContent =
+        text;
 
 
-    const utterance =
-        new SpeechSynthesisUtterance(
-            text
-        );
+    status.textContent =
+        "JARVIS";
 
 
-    utterance.lang =
-        "cs-CZ";
+    /*
+     * Zatím žádný lokální model.
+     *
+     * Tohle je záměrné.
+     * Nechceme znovu spustit problém
+     * s WebLLM a nekonečným stahováním.
+     */
 
-    utterance.rate =
-        0.55;
-
-    utterance.pitch =
-        0.85;
-
-    utterance.volume =
-        1;
+    response.textContent =
+        "Systém funguje.\n\n" +
+        "Jádro JARVIS je připravené.\n" +
+        "AI model zatím není připojen.";
 
 
-    speechSynthesis.speak(
-        utterance
+    log(
+        "Přijat text: " +
+        text,
+        "ok"
     );
 }
 
 
 /* ==================================================
-   START
+   SEND
 ================================================== */
 
-async function startJarvis() {
+sendButton.addEventListener(
+    "click",
+    () => {
+
+        const text =
+            textBox.value.trim();
+
+
+        if (!text)
+            return;
+
+
+        textBox.value =
+            "";
+
+
+        handleText(
+            text
+        );
+
+    }
+);
+
+
+/* ==================================================
+   ENTER
+================================================== */
+
+textBox.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendButton.click();
+        }
+
+    }
+);
+
+
+/* ==================================================
+   TEXTAREA AUTO HEIGHT
+================================================== */
+
+textBox.addEventListener(
+    "input",
+    () => {
+
+        textBox.style.height =
+            "auto";
+
+        textBox.style.height =
+            Math.min(
+                textBox.scrollHeight,
+                110
+            ) + "px";
+
+    }
+);
+
+
+/* ==================================================
+   START DIAGNOSTIKY
+================================================== */
+
+async function startDiagnostics() {
 
     status.textContent =
-        "PŘIPRAVUJI MOZEK";
+        "DIAGNOSTIKA";
 
     response.textContent =
-        "Načítám lokální AI…";
+        "Kontroluji systém…";
 
 
-    await loadModel();
+    log(
+        "HTML stránka načtena.",
+        "ok"
+    );
+
+
+    log(
+        "JavaScript spuštěn.",
+        "ok"
+    );
+
+
+    log(
+        "WebLLM: VYPNUTO"
+    );
+
+
+    log(
+        "Externí AI import: VYPNUTO"
+    );
+
+
+    log(
+        "Model download: VYPNUTO"
+    );
+
+
+    await checkWebGPU();
+
+
+    status.textContent =
+        "JARVIS PŘIPRAVEN";
+
+
+    response.textContent =
+        "Systém JARVIS je připraven.\n\n" +
+        "Diagnostika běží.";
+
+
+    log(
+        "START JARVIS DOKONČEN.",
+        "ok"
+    );
+
 }
 
 
-startJarvis();
+startDiagnostics();
+
 
 </script>
 
