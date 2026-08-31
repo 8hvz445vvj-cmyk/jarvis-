@@ -2,25 +2,13 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               viewport-fit=cover">
-
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="black">
-
-<meta name="apple-mobile-web-app-title"
-      content="JARVIS">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
 <title>JARVIS</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -32,13 +20,8 @@ html, body {
     height: 100%;
     background: #000;
     overflow: hidden;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "Helvetica Neue",
-        sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "Helvetica Neue", sans-serif;
 }
 
 body {
@@ -48,45 +31,32 @@ body {
 .app {
     width: 100%;
     height: 100dvh;
-
     background: #000;
-
     display: flex;
     flex-direction: column;
-
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
 }
 
 .main {
     flex: 1;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
     padding: 0 18px;
-
     overflow: hidden;
 }
 
-.top-space {
+.top-space,
+.bottom-space {
     flex: 1;
 }
 
-
-/* =========================
-   JARVIS CORE
-========================= */
-
 .core {
     position: relative;
-
-    width: min(300px, 78vw);
-    height: min(300px, 78vw);
-
+    width: min(300px,78vw);
+    height: min(300px,78vw);
     flex-shrink: 0;
-
     --r1: 0deg;
     --r2: 0deg;
     --pulse: 1;
@@ -94,376 +64,229 @@ body {
 
 .glow {
     position: absolute;
-
     left: 50%;
     top: 50%;
-
     width: 100%;
     height: 100%;
-
-    transform:
-        translate(-50%, -50%)
-        scale(var(--pulse));
-
+    transform: translate(-50%,-50%) scale(var(--pulse));
     border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,255,255,.35) 0%,
-            rgba(0,100,255,.12) 40%,
-            transparent 68%
-        );
+    background: radial-gradient(
+        circle,
+        rgba(0,255,255,.35) 0%,
+        rgba(0,100,255,.12) 40%,
+        transparent 68%
+    );
 }
 
 .ring {
     position: absolute;
-
     left: 50%;
     top: 50%;
-
-    transform:
-        translate(-50%, -50%);
 }
 
 .outer {
     width: 285px;
     height: 285px;
+    transform: translate(-50%,-50%);
 }
 
 .outer circle {
     fill: none;
-
-    stroke:
-        rgba(0,255,255,.35);
-
+    stroke: rgba(0,255,255,.35);
     stroke-width: 1;
 }
 
-.outer-segment {
-    width: 270px;
-    height: 270px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(var(--r1));
-}
-
-.outer-segment-2 {
-    width: 270px;
-    height: 270px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(var(--r2));
-}
-
+.outer-segment,
+.outer-segment-2,
 .outer-segment-3 {
     width: 270px;
     height: 270px;
+}
 
-    transform:
-        translate(-50%, -50%)
-        rotate(var(--r1));
+.outer-segment {
+    transform: translate(-50%,-50%) rotate(var(--r1));
+}
+
+.outer-segment-2 {
+    transform: translate(-50%,-50%) rotate(var(--r2));
+}
+
+.outer-segment-3 {
+    transform: translate(-50%,-50%) rotate(var(--r1));
 }
 
 .middle {
     width: 205px;
     height: 205px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(
-            calc(var(--r1) * -1)
-        );
+    transform: translate(-50%,-50%) rotate(calc(var(--r1) * -1));
 }
 
 .middle circle {
     fill: none;
-
-    stroke:
-        rgba(0,255,255,.65);
-
+    stroke: rgba(0,255,255,.65);
     stroke-width: 2;
 }
 
-.inner {
-    width: 190px;
-    height: 190px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(var(--r2));
-}
-
+.inner,
 .inner-2 {
     width: 190px;
     height: 190px;
+}
 
-    transform:
-        translate(-50%, -50%)
-        rotate(
-            calc(var(--r1) * -1)
-        );
+.inner {
+    transform: translate(-50%,-50%) rotate(var(--r2));
+}
+
+.inner-2 {
+    transform: translate(-50%,-50%) rotate(calc(var(--r1) * -1));
 }
 
 .center-glow {
     position: absolute;
-
     left: 50%;
     top: 50%;
-
     width: 130px;
     height: 130px;
-
-    transform:
-        translate(-50%, -50%)
-        scale(var(--pulse));
-
+    transform: translate(-50%,-50%) scale(var(--pulse));
     border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff 0%,
-            cyan 20%,
-            rgba(0,100,255,.8) 48%,
-            transparent 72%
-        );
+    background: radial-gradient(
+        circle,
+        #fff 0%,
+        cyan 20%,
+        rgba(0,100,255,.8) 48%,
+        transparent 72%
+    );
 }
 
 .core-center {
     position: absolute;
-
     left: 50%;
     top: 50%;
-
     width: 18px;
     height: 18px;
-
-    transform:
-        translate(-50%, -50%);
-
+    transform: translate(-50%,-50%);
     border-radius: 50%;
-
     background: white;
-
     box-shadow:
         0 0 10px cyan,
         0 0 20px cyan,
         0 0 35px rgba(0,255,255,.8);
 }
 
-
-/* =========================
-   TEXT
-========================= */
-
 .title {
     margin-top: 8px;
-
     font-size: 42px;
-
     font-weight: 300;
-
     letter-spacing: 10px;
-
     color: white;
 }
 
 .status {
     margin-top: 5px;
-
     font-size: 13px;
-
     font-weight: 500;
-
     letter-spacing: 4px;
-
-    color:
-        rgba(0,255,255,.8);
+    color: rgba(0,255,255,.8);
 }
 
 .recognized {
     margin-top: 17px;
-
     width: 100%;
     max-width: 420px;
-
     min-height: 44px;
-
     font-size: 17px;
-
     line-height: 1.4;
-
     text-align: center;
-
-    color:
-        rgba(255,255,255,.9);
-
+    color: rgba(255,255,255,.9);
     overflow-y: auto;
 }
 
 .response {
     margin-top: 7px;
-
     width: 100%;
     max-width: 430px;
-
     max-height: 110px;
-
     overflow-y: auto;
-
     font-size: 18px;
-
     font-weight: 500;
-
     line-height: 1.4;
-
     text-align: center;
-
-    color:
-        rgba(0,255,255,.95);
-
+    color: rgba(0,255,255,.95);
     white-space: pre-wrap;
 }
 
-.bottom-space {
-    flex: 1;
-}
-
-
-/* =========================
-   INPUT
-========================= */
-
 .input-area {
     width: 100%;
-
     max-width: 520px;
-
     display: flex;
-
     align-items: flex-end;
-
     gap: 9px;
-
     padding-bottom: 15px;
 }
 
 .text-box {
     flex: 1;
-
     min-width: 0;
-
     min-height: 50px;
-
     max-height: 110px;
-
     resize: none;
-
     outline: none;
-
-    border:
-        1px solid
-        rgba(255,255,255,.10);
-
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: 20px;
-
-    padding:
-        14px 16px;
-
-    background:
-        rgba(255,255,255,.08);
-
+    padding: 14px 16px;
+    background: rgba(255,255,255,.08);
     color: white;
-
     font-family: inherit;
-
     font-size: 16px;
-
     line-height: 21px;
 }
 
 .text-box::placeholder {
-    color:
-        rgba(255,255,255,.45);
+    color: rgba(255,255,255,.45);
 }
 
 .button {
     width: 50px;
     height: 50px;
-
     min-width: 50px;
-
     border: none;
-
     border-radius: 50%;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     color: white;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(0,255,255,.55);
-
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(0,255,255,.55);
     cursor: pointer;
 }
 
 .button:active {
-    transform:
-        scale(.92);
+    transform: scale(.92);
 }
 
 .mic.listening {
-    background:
-        rgba(0,140,255,.25);
-
+    background: rgba(0,140,255,.25);
     border-color: cyan;
-
-    box-shadow:
-        0 0 15px
-        rgba(0,255,255,.5);
+    box-shadow: 0 0 15px rgba(0,255,255,.5);
 }
 
 .mic-svg {
     width: 24px;
     height: 24px;
-
     fill: none;
-
     stroke: white;
-
     stroke-width: 1.8;
-
     stroke-linecap: round;
-
     stroke-linejoin: round;
 }
 
 .send {
     border: none;
-
-    background:
-        #087cff;
-
+    background: #087cff;
     font-size: 24px;
 }
 
-
-/* =========================
-   SMALL SCREEN
-========================= */
-
-@media (max-height: 700px) {
-
+@media (max-height:700px) {
     .core {
         width: 245px;
         height: 245px;
@@ -501,263 +324,136 @@ body {
         font-size: 36px;
     }
 }
-
 </style>
 </head>
-
 
 <body>
 
 <div class="app">
-
 <div class="main">
 
 <div class="top-space"></div>
 
-
-<!-- =========================
-     JARVIS KULIČKA
-========================= -->
-
-<div
-    class="core"
-    id="core"
->
+<div class="core" id="core">
 
 <div class="glow"></div>
 
-
-<svg
-    class="ring outer"
-    viewBox="0 0 285 285"
->
-
-<circle
-    cx="142.5"
-    cy="142.5"
-    r="142"
-/>
-
+<svg class="ring outer" viewBox="0 0 285 285">
+<circle cx="142.5" cy="142.5" r="142"/>
 </svg>
 
-
-<svg
-    class="ring outer-segment"
-    viewBox="0 0 270 270"
->
-
+<svg class="ring outer-segment" viewBox="0 0 270 270">
 <circle
-    cx="135"
-    cy="135"
-    r="128"
-    fill="none"
-    stroke="rgba(0,255,255,.9)"
-    stroke-width="3"
-    stroke-linecap="round"
-    stroke-dasharray="185 815"
-    pathLength="1000"
-/>
-
+cx="135" cy="135" r="128"
+fill="none"
+stroke="rgba(0,255,255,.9)"
+stroke-width="3"
+stroke-linecap="round"
+stroke-dasharray="185 815"
+pathLength="1000"/>
 </svg>
 
-
-<svg
-    class="ring outer-segment-2"
-    viewBox="0 0 270 270"
->
-
+<svg class="ring outer-segment-2" viewBox="0 0 270 270">
 <circle
-    cx="135"
-    cy="135"
-    r="128"
-    fill="none"
-    stroke="rgba(0,255,255,.8)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-dasharray="125 875"
-    stroke-dashoffset="-480"
-    pathLength="1000"
-/>
-
+cx="135" cy="135" r="128"
+fill="none"
+stroke="rgba(0,255,255,.8)"
+stroke-width="2"
+stroke-linecap="round"
+stroke-dasharray="125 875"
+stroke-dashoffset="-480"
+pathLength="1000"/>
 </svg>
 
-
-<svg
-    class="ring outer-segment-3"
-    viewBox="0 0 270 270"
->
-
+<svg class="ring outer-segment-3" viewBox="0 0 270 270">
 <circle
-    cx="135"
-    cy="135"
-    r="128"
-    fill="none"
-    stroke="rgba(40,120,255,.9)"
-    stroke-width="3"
-    stroke-linecap="round"
-    stroke-dasharray="100 900"
-    stroke-dashoffset="-780"
-    pathLength="1000"
-/>
-
+cx="135" cy="135" r="128"
+fill="none"
+stroke="rgba(40,120,255,.9)"
+stroke-width="3"
+stroke-linecap="round"
+stroke-dasharray="100 900"
+stroke-dashoffset="-780"
+pathLength="1000"/>
 </svg>
 
-
-<svg
-    class="ring middle"
-    viewBox="0 0 205 205"
->
-
-<circle
-    cx="102.5"
-    cy="102.5"
-    r="100"
-/>
-
+<svg class="ring middle" viewBox="0 0 205 205">
+<circle cx="102.5" cy="102.5" r="100"/>
 </svg>
 
-
-<svg
-    class="ring inner"
-    viewBox="0 0 190 190"
->
-
+<svg class="ring inner" viewBox="0 0 190 190">
 <circle
-    cx="95"
-    cy="95"
-    r="92"
-    fill="none"
-    stroke="rgba(0,120,255,.9)"
-    stroke-width="4"
-    stroke-linecap="round"
-    stroke-dasharray="150 850"
-    stroke-dashoffset="-120"
-    pathLength="1000"
-/>
-
+cx="95" cy="95" r="92"
+fill="none"
+stroke="rgba(0,120,255,.9)"
+stroke-width="4"
+stroke-linecap="round"
+stroke-dasharray="150 850"
+stroke-dashoffset="-120"
+pathLength="1000"/>
 </svg>
 
-
-<svg
-    class="ring inner-2"
-    viewBox="0 0 190 190"
->
-
+<svg class="ring inner-2" viewBox="0 0 190 190">
 <circle
-    cx="95"
-    cy="95"
-    r="92"
-    fill="none"
-    stroke="rgba(0,255,255,.7)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-dasharray="155 845"
-    stroke-dashoffset="-580"
-    pathLength="1000"
-/>
-
+cx="95" cy="95" r="92"
+fill="none"
+stroke="rgba(0,255,255,.7)"
+stroke-width="2"
+stroke-linecap="round"
+stroke-dasharray="155 845"
+stroke-dashoffset="-580"
+pathLength="1000"/>
 </svg>
-
 
 <div class="center-glow"></div>
-
 <div class="core-center"></div>
 
 </div>
 
+<div class="title">JARVIS</div>
 
-<div class="title">
-JARVIS
-</div>
+<div class="status" id="status">PŘIPRAVEN</div>
 
-
-<div
-    class="status"
-    id="status"
->
-PŘIPRAVEN
-</div>
-
-
-<div
-    class="recognized"
-    id="recognized"
->
+<div class="recognized" id="recognized">
 ŘEKNI NĚCO…
 </div>
 
-
-<div
-    class="response"
-    id="response"
-></div>
-
+<div class="response" id="response"></div>
 
 <div class="bottom-space"></div>
-
-
-<!-- =========================
-     PSANÍ + MIKROFON
-========================= -->
 
 <div class="input-area">
 
 <textarea
-    id="textBox"
-    class="text-box"
-    rows="1"
-    placeholder="Napiš JARVISovi…"
-></textarea>
-
+id="textBox"
+class="text-box"
+rows="1"
+placeholder="Napiš JARVISovi…"></textarea>
 
 <button
-    id="micButton"
-    class="button mic"
-    aria-label="Mikrofon"
->
+id="micButton"
+class="button mic"
+aria-label="Mikrofon">
 
-<svg
-    class="mic-svg"
-    viewBox="0 0 24 24"
->
-
-<rect
-    x="9"
-    y="3"
-    width="6"
-    height="11"
-    rx="3"
-/>
-
-<path
-    d="M5 11a7 7 0 0 0 14 0"
-/>
-
-<path
-    d="M12 18v3"
-/>
-
-<path
-    d="M9 21h6"
-/>
-
+<svg class="mic-svg" viewBox="0 0 24 24">
+<rect x="9" y="3" width="6" height="11" rx="3"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+<path d="M12 18v3"/>
+<path d="M9 21h6"/>
 </svg>
 
 </button>
 
-
 <button
-    id="sendButton"
-    class="button send"
-    aria-label="Odeslat"
->
+id="sendButton"
+class="button send"
+aria-label="Odeslat">
 ↑
 </button>
 
 </div>
 
 </div>
-
 </div>
 
 
@@ -765,14 +461,8 @@ PŘIPRAVEN
 
 import {
     CreateMLCEngine
-}
-from
-"https://esm.run/@mlc-ai/web-llm";
+} from "https://esm.run/@mlc-ai/web-llm";
 
-
-/* =========================
-   ELEMENTY
-========================= */
 
 const core =
     document.getElementById("core");
@@ -797,18 +487,13 @@ const textBox =
 
 
 /* =========================
-   ANIMACE KULIČKY
+   KULIČKA
 ========================= */
 
 let isThinking = false;
-
 let rotation1 = 0;
-
 let rotation2 = 0;
-
-let lastTime =
-    performance.now();
-
+let lastTime = performance.now();
 
 function animate(time) {
 
@@ -817,39 +502,23 @@ function animate(time) {
 
     lastTime = time;
 
-
     const speed1 =
         isThinking ? 90 : 45;
 
     const speed2 =
         isThinking ? -144 : -72;
 
-
-    rotation1 +=
-        speed1 * delta;
-
-    rotation2 +=
-        speed2 * delta;
-
+    rotation1 += speed1 * delta;
+    rotation2 += speed2 * delta;
 
     const pulse =
         1 +
         Math.sin(
             time / 1000 *
             Math.PI *
-            (
-                isThinking
-                ? 1.6
-                : 0.55
-            )
-        )
-        *
-        (
-            isThinking
-            ? .12
-            : .05
-        );
-
+            (isThinking ? 1.6 : .55)
+        ) *
+        (isThinking ? .12 : .05);
 
     core.style.setProperty(
         "--r1",
@@ -866,50 +535,46 @@ function animate(time) {
         pulse
     );
 
-
-    requestAnimationFrame(
-        animate
-    );
+    requestAnimationFrame(animate);
 }
 
-
-requestAnimationFrame(
-    animate
-);
+requestAnimationFrame(animate);
 
 
-/* ==================================================
-   LOKÁLNÍ MODEL
-================================================== */
-
-/*
-   OVĚŘENÝ MODEL PRO WEBLLM:
-
-   Phi-3.5-mini-instruct-q4f16_1-MLC
-
-   Je pod 4B parametrů.
-*/
+/* =========================
+   MODEL
+========================= */
 
 const MODEL =
-    "Phi-3.5-mini-instruct-q4f16_1-MLC";
-
+    "Qwen3-1.7B-q4f16_1-MLC";
 
 let engine = null;
-
 let modelReady = false;
 
 
-/* ==================================================
-   NAČTENÍ AI
-================================================== */
+/* =========================
+   NAČTENÍ MOZKU
+========================= */
 
 async function loadAI() {
+
+    if (!navigator.gpu) {
+
+        status.textContent =
+            "WEBGPU NENÍ DOSTUPNÉ";
+
+        response.textContent =
+            "Tento prohlížeč neposkytuje WebGPU.";
+
+        return;
+    }
+
 
     status.textContent =
         "NAČÍTÁM MOZEK";
 
     response.textContent =
-        "Připravuji lokální AI…";
+        "Stahuji lokální AI…";
 
     isThinking = true;
 
@@ -917,11 +582,7 @@ async function loadAI() {
     try {
 
         console.log(
-            "JARVIS: WebLLM start"
-        );
-
-        console.log(
-            "Model:",
+            "JARVIS MODEL:",
             MODEL
         );
 
@@ -934,15 +595,14 @@ async function loadAI() {
                 {
 
                     initProgressCallback:
-                    function(progress) {
+                    progress => {
 
                         console.log(
-                            "WebLLM progress:",
                             progress
                         );
 
 
-                        const percent =
+                        const p =
                             Math.round(
                                 (
                                     progress.progress
@@ -952,15 +612,12 @@ async function loadAI() {
 
 
                         status.textContent =
-                            "MOZEK "
-                            + percent
-                            + "%";
+                            "MOZEK " + p + "%";
 
 
                         response.textContent =
-                            progress.text
-                            ||
-                            "Stahuji lokální AI…";
+                            progress.text ||
+                            "Načítám lokální AI…";
                     }
                 }
             );
@@ -968,59 +625,51 @@ async function loadAI() {
 
         modelReady = true;
 
-
         status.textContent =
             "PŘIPRAVEN";
 
-
         response.textContent =
-            "Lokální AI je připravena.";
+            "JARVIS je připraven.";
 
-
-        console.log(
-            "JARVIS: MODEL READY"
-        );
+        isThinking = false;
 
 
     } catch (error) {
 
         console.error(
-            "WEBLLM CHYBA:",
+            "MODEL ERROR:",
             error
         );
 
 
+        modelReady = false;
+
+        isThinking = false;
+
         status.textContent =
             "CHYBA MODELU";
 
-
         response.textContent =
-            "CHYBA:\n\n"
+            "Model se nepodařilo spustit.\n\n"
             +
             (
-                error?.message
-                ||
+                error?.message ||
                 String(error)
             );
-
-
-    } finally {
-
-        isThinking = false;
     }
 }
 
 
-/* ==================================================
-   JARVISŮV MOZEK
-================================================== */
+/* =========================
+   JARVIS
+========================= */
 
 async function askJarvis(text) {
 
     if (!modelReady) {
 
         response.textContent =
-            "JARVIS ještě načítá svůj mozek.";
+            "JARVIS ještě nemá načtený mozek.";
 
         return;
     }
@@ -1042,33 +691,24 @@ async function askJarvis(text) {
                     {
                         role: "system",
 
-                        content: `
-Jsi JARVIS, osobní AI asistent.
+                        content:
+`Jsi JARVIS, osobní AI asistent.
 
-Odpovídej vždy česky.
+Vždy odpovídej česky.
 
-Buď inteligentní,
-přirozený,
+Buď přirozený, inteligentní,
 stručný a užitečný.
 
 Mluv jako technologický
 osobní asistent.
 
-Nikdy netvrď,
-že jsi člověk.
-
-Když uživatel položí
-jednoduchou otázku,
-odpověz přímo.
-
-Když něč nevíš,
-řekni to otevřeně.
+Nevymýšlej si informace.
+Když něco nevíš, řekni to.
 `
                     },
 
                     {
                         role: "user",
-
                         content: text
                     }
 
@@ -1091,10 +731,8 @@ Když něč nevíš,
         response.textContent =
             answer;
 
-
         status.textContent =
             "JARVIS ODPOVÍDÁ";
-
 
         speak(answer);
 
@@ -1106,20 +744,16 @@ Když něč nevíš,
             error
         );
 
-
         response.textContent =
             "CHYBA AI:\n\n"
             +
             (
-                error?.message
-                ||
+                error?.message ||
                 String(error)
             );
 
-
         status.textContent =
             "CHYBA";
-
 
     } finally {
 
@@ -1128,28 +762,24 @@ Když něč nevíš,
 }
 
 
-/* ==================================================
+/* =========================
    PSANÍ
-================================================== */
+========================= */
 
 sendButton.addEventListener(
     "click",
-    function() {
+    () => {
 
         const text =
             textBox.value.trim();
 
-
         if (!text)
             return;
 
-
         textBox.value = "";
-
 
         recognized.textContent =
             text;
-
 
         askJarvis(text);
     }
@@ -1158,11 +788,10 @@ sendButton.addEventListener(
 
 textBox.addEventListener(
     "keydown",
-    function(event) {
+    event => {
 
         if (
-            event.key === "Enter"
-            &&
+            event.key === "Enter" &&
             !event.shiftKey
         ) {
 
@@ -1174,14 +803,12 @@ textBox.addEventListener(
 );
 
 
-/* ==================================================
-   ROZPOZNÁVÁNÍ ŘEČI
-================================================== */
+/* =========================
+   MIKROFON
+========================= */
 
 let recognition = null;
-
 let isListening = false;
-
 
 const SpeechRecognition =
     window.SpeechRecognition ||
@@ -1193,27 +820,23 @@ if (SpeechRecognition) {
     recognition =
         new SpeechRecognition();
 
-
     recognition.lang =
         "cs-CZ";
 
-
     recognition.continuous =
         false;
-
 
     recognition.interimResults =
         true;
 
 
     recognition.onstart =
-    function() {
+    () => {
 
         isListening = true;
 
         status.textContent =
             "POSLOUCHÁM";
-
 
         micButton.classList.add(
             "listening"
@@ -1222,10 +845,9 @@ if (SpeechRecognition) {
 
 
     recognition.onresult =
-    function(event) {
+    event => {
 
         let text = "";
-
 
         for (
             let i = event.resultIndex;
@@ -1234,11 +856,9 @@ if (SpeechRecognition) {
         ) {
 
             text +=
-                event
-                    .results[i][0]
-                    .transcript;
+                event.results[i][0]
+                .transcript;
         }
-
 
         if (text.trim()) {
 
@@ -1249,19 +869,16 @@ if (SpeechRecognition) {
 
 
     recognition.onend =
-    function() {
+    () => {
 
         isListening = false;
-
 
         micButton.classList.remove(
             "listening"
         );
 
-
         const text =
             recognized.textContent.trim();
-
 
         if (
             text &&
@@ -1274,21 +891,18 @@ if (SpeechRecognition) {
 
 
     recognition.onerror =
-    function(error) {
+    error => {
 
         console.log(
-            "Speech error:",
+            "Speech:",
             error
         );
 
-
         isListening = false;
-
 
         micButton.classList.remove(
             "listening"
         );
-
 
         status.textContent =
             "PŘIPRAVEN";
@@ -1296,23 +910,17 @@ if (SpeechRecognition) {
 }
 
 
-/* ==================================================
-   MIKROFON
-================================================== */
-
 micButton.addEventListener(
     "click",
-    function() {
+    () => {
 
         if (!recognition) {
 
-            alert(
-                "Tento prohlížeč nepodporuje diktování."
-            );
+            response.textContent =
+                "Tento prohlížeč nepodporuje diktování.";
 
             return;
         }
-
 
         if (isListening) {
 
@@ -1323,10 +931,8 @@ micButton.addEventListener(
             recognized.textContent =
                 "ŘEKNI NĚCO…";
 
-
             response.textContent =
                 "";
-
 
             try {
 
@@ -1334,53 +940,42 @@ micButton.addEventListener(
 
             } catch (error) {
 
-                console.log(
-                    error
-                );
+                console.log(error);
             }
         }
     }
 );
 
 
-/* ==================================================
-   HLAS JARVISE
-================================================== */
+/* =========================
+   HLAS
+========================= */
 
 function speak(text) {
 
     if (
         !("speechSynthesis" in window)
-    ) {
-
+    )
         return;
-    }
-
 
     speechSynthesis.cancel();
-
 
     const utterance =
         new SpeechSynthesisUtterance(
             text
         );
 
-
     utterance.lang =
         "cs-CZ";
-
 
     utterance.rate =
         0.48;
 
-
     utterance.pitch =
         0.85;
 
-
     utterance.volume =
         1;
-
 
     speechSynthesis.speak(
         utterance
@@ -1388,9 +983,9 @@ function speak(text) {
 }
 
 
-/* ==================================================
+/* =========================
    START
-================================================== */
+========================= */
 
 loadAI();
 
