@@ -2,26 +2,44 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="JARVIS">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1,
+viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black">
+
+<meta name="apple-mobile-web-app-title"
+content="JARVIS">
+
 <title>JARVIS</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     width: 100%;
     height: 100%;
     background: #000;
     overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-                 "Helvetica Neue", sans-serif;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Helvetica Neue",
+        sans-serif;
 }
 
 body {
@@ -31,32 +49,49 @@ body {
 .app {
     width: 100%;
     height: 100dvh;
+
     background: #000;
+
     display: flex;
     flex-direction: column;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+
+    padding-top:
+        env(safe-area-inset-top);
+
+    padding-bottom:
+        env(safe-area-inset-bottom);
 }
 
 .main {
     flex: 1;
+
     display: flex;
     flex-direction: column;
+
     align-items: center;
+
     padding: 0 18px;
+
     overflow: hidden;
 }
 
-.top-space,
-.bottom-space {
+.top-space {
     flex: 1;
 }
 
+
+/* =========================
+   JARVIS CORE
+========================= */
+
 .core {
     position: relative;
-    width: min(300px,78vw);
-    height: min(300px,78vw);
+
+    width: min(300px, 78vw);
+    height: min(300px, 78vw);
+
     flex-shrink: 0;
+
     --r1: 0deg;
     --r2: 0deg;
     --pulse: 1;
@@ -64,22 +99,31 @@ body {
 
 .glow {
     position: absolute;
+
     left: 50%;
     top: 50%;
+
     width: 100%;
     height: 100%;
-    transform: translate(-50%,-50%) scale(var(--pulse));
+
+    transform:
+        translate(-50%, -50%)
+        scale(var(--pulse));
+
     border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        rgba(0,255,255,.35) 0%,
-        rgba(0,100,255,.12) 40%,
-        transparent 68%
-    );
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,255,.35),
+            rgba(0,100,255,.12) 40%,
+            transparent 68%
+        );
 }
 
 .ring {
     position: absolute;
+
     left: 50%;
     top: 50%;
 }
@@ -87,12 +131,17 @@ body {
 .outer {
     width: 285px;
     height: 285px;
-    transform: translate(-50%,-50%);
+
+    transform:
+        translate(-50%, -50%);
 }
 
 .outer circle {
     fill: none;
-    stroke: rgba(0,255,255,.35);
+
+    stroke:
+        rgba(0,255,255,.35);
+
     stroke-width: 1;
 }
 
@@ -104,26 +153,40 @@ body {
 }
 
 .outer-segment {
-    transform: translate(-50%,-50%) rotate(var(--r1));
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r1));
 }
 
 .outer-segment-2 {
-    transform: translate(-50%,-50%) rotate(var(--r2));
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r2));
 }
 
 .outer-segment-3 {
-    transform: translate(-50%,-50%) rotate(var(--r1));
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r1));
 }
 
 .middle {
     width: 205px;
     height: 205px;
-    transform: translate(-50%,-50%) rotate(calc(var(--r1) * -1));
+
+    transform:
+        translate(-50%, -50%)
+        rotate(
+            calc(var(--r1) * -1)
+        );
 }
 
 .middle circle {
     fill: none;
-    stroke: rgba(0,255,255,.65);
+
+    stroke:
+        rgba(0,255,255,.65);
+
     stroke-width: 2;
 }
 
@@ -134,129 +197,226 @@ body {
 }
 
 .inner {
-    transform: translate(-50%,-50%) rotate(var(--r2));
+    transform:
+        translate(-50%, -50%)
+        rotate(var(--r2));
 }
 
 .inner-2 {
-    transform: translate(-50%,-50%) rotate(calc(var(--r1) * -1));
+    transform:
+        translate(-50%, -50%)
+        rotate(
+            calc(var(--r1) * -1)
+        );
 }
 
 .center-glow {
     position: absolute;
+
     left: 50%;
     top: 50%;
+
     width: 130px;
     height: 130px;
-    transform: translate(-50%,-50%) scale(var(--pulse));
+
+    transform:
+        translate(-50%, -50%)
+        scale(var(--pulse));
+
     border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        #fff 0%,
-        cyan 20%,
-        rgba(0,100,255,.8) 48%,
-        transparent 72%
-    );
+
+    background:
+        radial-gradient(
+            circle,
+            #fff,
+            cyan 20%,
+            rgba(0,100,255,.8) 48%,
+            transparent 72%
+        );
 }
 
 .core-center {
     position: absolute;
+
     left: 50%;
     top: 50%;
+
     width: 18px;
     height: 18px;
-    transform: translate(-50%,-50%);
+
+    transform:
+        translate(-50%, -50%);
+
     border-radius: 50%;
+
     background: white;
+
     box-shadow:
         0 0 10px cyan,
         0 0 20px cyan,
         0 0 35px rgba(0,255,255,.8);
 }
 
+
+/* =========================
+   TEXT
+========================= */
+
 .title {
     margin-top: 8px;
+
     font-size: 42px;
+
     font-weight: 300;
+
     letter-spacing: 10px;
+
     color: white;
 }
 
 .status {
     margin-top: 5px;
+
     font-size: 13px;
+
     font-weight: 500;
+
     letter-spacing: 4px;
-    color: rgba(0,255,255,.8);
+
+    color:
+        rgba(0,255,255,.8);
 }
 
 .recognized {
     margin-top: 17px;
+
     width: 100%;
     max-width: 420px;
+
     min-height: 44px;
+
     font-size: 17px;
+
     line-height: 1.4;
+
     text-align: center;
-    color: rgba(255,255,255,.9);
+
+    color:
+        rgba(255,255,255,.9);
+
     overflow-y: auto;
 }
 
 .response {
     margin-top: 7px;
+
     width: 100%;
     max-width: 430px;
+
     max-height: 110px;
+
     overflow-y: auto;
+
     font-size: 18px;
+
     font-weight: 500;
+
     line-height: 1.4;
+
     text-align: center;
-    color: rgba(0,255,255,.95);
+
+    color:
+        rgba(0,255,255,.95);
+
     white-space: pre-wrap;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.bottom-space {
+    flex: 1;
 }
 
 .input-area {
     width: 100%;
+
     max-width: 520px;
+
     display: flex;
+
     align-items: flex-end;
+
     gap: 9px;
+
     padding-bottom: 15px;
 }
 
 .text-box {
     flex: 1;
+
     min-width: 0;
+
     min-height: 50px;
+
     max-height: 110px;
+
     resize: none;
+
     outline: none;
-    border: 1px solid rgba(255,255,255,.10);
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
     border-radius: 20px;
-    padding: 14px 16px;
-    background: rgba(255,255,255,.08);
+
+    padding:
+        14px 16px;
+
+    background:
+        rgba(255,255,255,.08);
+
     color: white;
+
     font-family: inherit;
+
     font-size: 16px;
+
     line-height: 21px;
 }
 
 .text-box::placeholder {
-    color: rgba(255,255,255,.45);
+    color:
+        rgba(255,255,255,.45);
 }
 
 .button {
     width: 50px;
     height: 50px;
+
     min-width: 50px;
+
     border: none;
+
     border-radius: 50%;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     color: white;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(0,255,255,.55);
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid
+        rgba(0,255,255,.55);
+
     cursor: pointer;
 }
 
@@ -265,28 +425,47 @@ body {
 }
 
 .mic.listening {
-    background: rgba(0,140,255,.25);
+    background:
+        rgba(0,140,255,.25);
+
     border-color: cyan;
-    box-shadow: 0 0 15px rgba(0,255,255,.5);
+
+    box-shadow:
+        0 0 15px
+        rgba(0,255,255,.5);
 }
 
 .mic-svg {
     width: 24px;
     height: 24px;
+
     fill: none;
+
     stroke: white;
+
     stroke-width: 1.8;
+
     stroke-linecap: round;
+
     stroke-linejoin: round;
 }
 
 .send {
     border: none;
-    background: #087cff;
+
+    background:
+        #087cff;
+
     font-size: 24px;
 }
 
-@media (max-height:700px) {
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media (max-height: 700px) {
+
     .core {
         width: 245px;
         height: 245px;
@@ -324,103 +503,206 @@ body {
         font-size: 36px;
     }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
+
 <div class="main">
 
 <div class="top-space"></div>
 
-<div class="core" id="core">
+
+<!-- =========================
+     JARVIS CORE
+========================= -->
+
+<div
+class="core"
+id="core"
+>
 
 <div class="glow"></div>
 
-<svg class="ring outer" viewBox="0 0 285 285">
-<circle cx="142.5" cy="142.5" r="142"/>
+
+<svg
+class="ring outer"
+viewBox="0 0 285 285"
+>
+
+<circle
+cx="142.5"
+cy="142.5"
+r="142"
+/>
+
 </svg>
 
-<svg class="ring outer-segment" viewBox="0 0 270 270">
+
+<svg
+class="ring outer-segment"
+viewBox="0 0 270 270"
+>
+
 <circle
-cx="135" cy="135" r="128"
+cx="135"
+cy="135"
+r="128"
 fill="none"
 stroke="rgba(0,255,255,.9)"
 stroke-width="3"
 stroke-linecap="round"
 stroke-dasharray="185 815"
-pathLength="1000"/>
+pathLength="1000"
+/>
+
 </svg>
 
-<svg class="ring outer-segment-2" viewBox="0 0 270 270">
+
+<svg
+class="ring outer-segment-2"
+viewBox="0 0 270 270"
+>
+
 <circle
-cx="135" cy="135" r="128"
+cx="135"
+cy="135"
+r="128"
 fill="none"
 stroke="rgba(0,255,255,.8)"
 stroke-width="2"
 stroke-linecap="round"
 stroke-dasharray="125 875"
 stroke-dashoffset="-480"
-pathLength="1000"/>
+pathLength="1000"
+/>
+
 </svg>
 
-<svg class="ring outer-segment-3" viewBox="0 0 270 270">
+
+<svg
+class="ring outer-segment-3"
+viewBox="0 0 270 270"
+>
+
 <circle
-cx="135" cy="135" r="128"
+cx="135"
+cy="135"
+r="128"
 fill="none"
 stroke="rgba(40,120,255,.9)"
 stroke-width="3"
 stroke-linecap="round"
 stroke-dasharray="100 900"
 stroke-dashoffset="-780"
-pathLength="1000"/>
+pathLength="1000"
+/>
+
 </svg>
 
-<svg class="ring middle" viewBox="0 0 205 205">
-<circle cx="102.5" cy="102.5" r="100"/>
-</svg>
 
-<svg class="ring inner" viewBox="0 0 190 190">
+<svg
+class="ring middle"
+viewBox="0 0 205 205"
+>
+
 <circle
-cx="95" cy="95" r="92"
+cx="102.5"
+cy="102.5"
+r="100"
+/>
+
+</svg>
+
+
+<svg
+class="ring inner"
+viewBox="0 0 190 190"
+>
+
+<circle
+cx="95"
+cy="95"
+r="92"
 fill="none"
 stroke="rgba(0,120,255,.9)"
 stroke-width="4"
 stroke-linecap="round"
 stroke-dasharray="150 850"
 stroke-dashoffset="-120"
-pathLength="1000"/>
+pathLength="1000"
+/>
+
 </svg>
 
-<svg class="ring inner-2" viewBox="0 0 190 190">
+
+<svg
+class="ring inner-2"
+viewBox="0 0 190 190"
+>
+
 <circle
-cx="95" cy="95" r="92"
+cx="95"
+cy="95"
+r="92"
 fill="none"
 stroke="rgba(0,255,255,.7)"
 stroke-width="2"
 stroke-linecap="round"
 stroke-dasharray="155 845"
 stroke-dashoffset="-580"
-pathLength="1000"/>
+pathLength="1000"
+/>
+
 </svg>
 
+
 <div class="center-glow"></div>
+
 <div class="core-center"></div>
 
 </div>
 
-<div class="title">JARVIS</div>
 
-<div class="status" id="status">PŘIPRAVEN</div>
+<div class="title">
+JARVIS
+</div>
 
-<div class="recognized" id="recognized">
+
+<div
+class="status"
+id="status"
+>
+WEBGPU TESTUJI
+</div>
+
+
+<div
+class="recognized"
+id="recognized"
+>
 ŘEKNI NĚCO…
 </div>
 
-<div class="response" id="response"></div>
+
+<div
+class="response"
+id="response"
+>
+Kontroluji WebGPU…
+</div>
+
 
 <div class="bottom-space"></div>
+
+
+<!-- =========================
+     PSANÍ + MIKROFON
+========================= -->
 
 <div class="input-area">
 
@@ -428,72 +710,77 @@ pathLength="1000"/>
 id="textBox"
 class="text-box"
 rows="1"
-placeholder="Napiš JARVISovi…"></textarea>
+placeholder="Napiš JARVISovi…"
+></textarea>
+
 
 <button
 id="micButton"
 class="button mic"
-aria-label="Mikrofon">
+aria-label="Mikrofon"
+>
 
-<svg class="mic-svg" viewBox="0 0 24 24">
-<rect x="9" y="3" width="6" height="11" rx="3"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-<path d="M12 18v3"/>
-<path d="M9 21h6"/>
+<svg
+class="mic-svg"
+viewBox="0 0 24 24"
+>
+
+<rect
+x="9"
+y="3"
+width="6"
+height="11"
+rx="3"
+/>
+
+<path
+d="M5 11a7 7 0 0 0 14 0"
+/>
+
+<path
+d="M12 18v3"
+/>
+
+<path
+d="M9 21h6"
+/>
+
 </svg>
 
 </button>
 
+
 <button
 id="sendButton"
 class="button send"
-aria-label="Odeslat">
+aria-label="Odeslat"
+>
 ↑
 </button>
 
 </div>
 
 </div>
+
 </div>
 
 
-<script type="module">
+<script>
 
-import {
-    CreateMLCEngine
-} from "https://esm.run/@mlc-ai/web-llm";
-
+/* ==================================================
+   JARVIS KULIČKA
+================================================== */
 
 const core =
-    document.getElementById("core");
+document.getElementById("core");
 
-const status =
-    document.getElementById("status");
-
-const recognized =
-    document.getElementById("recognized");
-
-const response =
-    document.getElementById("response");
-
-const micButton =
-    document.getElementById("micButton");
-
-const sendButton =
-    document.getElementById("sendButton");
-
-const textBox =
-    document.getElementById("textBox");
-
-
-/* =========================
-   KULIČKA
-========================= */
-
-let isThinking = false;
 let rotation1 = 0;
+
 let rotation2 = 0;
-let lastTime = performance.now();
+
+let lastTime =
+performance.now();
+
 
 function animate(time) {
 
@@ -502,23 +789,23 @@ function animate(time) {
 
     lastTime = time;
 
-    const speed1 =
-        isThinking ? 90 : 45;
 
-    const speed2 =
-        isThinking ? -144 : -72;
+    rotation1 +=
+        45 * delta;
 
-    rotation1 += speed1 * delta;
-    rotation2 += speed2 * delta;
+    rotation2 -=
+        72 * delta;
+
 
     const pulse =
         1 +
         Math.sin(
             time / 1000 *
             Math.PI *
-            (isThinking ? 1.6 : .55)
+            .55
         ) *
-        (isThinking ? .12 : .05);
+        .05;
+
 
     core.style.setProperty(
         "--r1",
@@ -535,33 +822,46 @@ function animate(time) {
         pulse
     );
 
-    requestAnimationFrame(animate);
+
+    requestAnimationFrame(
+        animate
+    );
 }
 
-requestAnimationFrame(animate);
+
+requestAnimationFrame(
+    animate
+);
 
 
-/* =========================
-   MODEL
-========================= */
+/* ==================================================
+   WEBGPU TEST
+================================================== */
 
-const MODEL =
-    "Qwen3-1.7B-q4f16_1-MLC";
+const status =
+document.getElementById("status");
 
-let engine = null;
-let modelReady = false;
+const response =
+document.getElementById("response");
 
 
-/* =========================
-   NAČTENÍ MOZKU
-========================= */
+async function testWebGPU() {
 
-async function loadAI() {
+    status.textContent =
+        "WEBGPU TESTUJI";
+
+    response.textContent =
+        "Kontroluji grafický čip…";
+
+
+    /* -------------------------
+       1. WEBGPU API
+    ------------------------- */
 
     if (!navigator.gpu) {
 
         status.textContent =
-            "WEBGPU NENÍ DOSTUPNÉ";
+            "WEBGPU CHYBÍ";
 
         response.textContent =
             "Tento prohlížeč neposkytuje WebGPU.";
@@ -570,201 +870,136 @@ async function loadAI() {
     }
 
 
-    status.textContent =
-        "NAČÍTÁM MOZEK";
-
-    response.textContent =
-        "Stahuji lokální AI…";
-
-    isThinking = true;
-
-
     try {
 
-        console.log(
-            "JARVIS MODEL:",
-            MODEL
-        );
+        /* -------------------------
+           2. ADAPTER
+        ------------------------- */
 
-
-        engine =
-            await CreateMLCEngine(
-
-                MODEL,
-
-                {
-
-                    initProgressCallback:
-                    progress => {
-
-                        console.log(
-                            progress
-                        );
-
-
-                        const p =
-                            Math.round(
-                                (
-                                    progress.progress
-                                    || 0
-                                ) * 100
-                            );
-
-
-                        status.textContent =
-                            "MOZEK " + p + "%";
-
-
-                        response.textContent =
-                            progress.text ||
-                            "Načítám lokální AI…";
-                    }
-                }
-            );
-
-
-        modelReady = true;
-
-        status.textContent =
-            "PŘIPRAVEN";
-
-        response.textContent =
-            "JARVIS je připraven.";
-
-        isThinking = false;
-
-
-    } catch (error) {
-
-        console.error(
-            "MODEL ERROR:",
-            error
-        );
-
-
-        modelReady = false;
-
-        isThinking = false;
-
-        status.textContent =
-            "CHYBA MODELU";
-
-        response.textContent =
-            "Model se nepodařilo spustit.\n\n"
-            +
-            (
-                error?.message ||
-                String(error)
-            );
-    }
-}
-
-
-/* =========================
-   JARVIS
-========================= */
-
-async function askJarvis(text) {
-
-    if (!modelReady) {
-
-        response.textContent =
-            "JARVIS ještě nemá načtený mozek.";
-
-        return;
-    }
-
-
-    isThinking = true;
-
-    status.textContent =
-        "JARVIS PŘEMÝŠLÍ";
-
-
-    try {
-
-        const result =
-            await engine.chat.completions.create({
-
-                messages: [
-
-                    {
-                        role: "system",
-
-                        content:
-`Jsi JARVIS, osobní AI asistent.
-
-Vždy odpovídej česky.
-
-Buď přirozený, inteligentní,
-stručný a užitečný.
-
-Mluv jako technologický
-osobní asistent.
-
-Nevymýšlej si informace.
-Když něco nevíš, řekni to.
-`
-                    },
-
-                    {
-                        role: "user",
-                        content: text
-                    }
-
-                ],
-
-                temperature: 0.7,
-
-                max_tokens: 300
+        const adapter =
+            await navigator.gpu.requestAdapter({
+                powerPreference:
+                    "high-performance"
             });
 
 
-        const answer =
-            result
-                .choices[0]
-                .message
-                .content
-                .trim();
+        if (!adapter) {
+
+            status.textContent =
+                "CHYBA ADAPTÉRU";
+
+            response.textContent =
+                "WebGPU existuje, ale nebyl nalezen GPU adaptér.";
+
+            return;
+        }
+
+
+        /* -------------------------
+           3. DEVICE
+        ------------------------- */
+
+        const device =
+            await adapter.requestDevice();
+
+
+        if (!device) {
+
+            status.textContent =
+                "CHYBA DEVICE";
+
+            response.textContent =
+                "GPU zařízení se nepodařilo vytvořit.";
+
+            return;
+        }
+
+
+        /* -------------------------
+           4. BUFFER TEST
+        ------------------------- */
+
+        const buffer =
+            device.createBuffer({
+
+                size: 256,
+
+                usage:
+                    GPUBufferUsage.STORAGE |
+                    GPUBufferUsage.COPY_DST,
+
+                mappedAtCreation:
+                    false
+            });
+
+
+        buffer.destroy();
+
+
+        /* -------------------------
+           HOTOVO
+        ------------------------- */
+
+        status.textContent =
+            "WEBGPU FUNGUJE ✓";
 
 
         response.textContent =
-            answer;
+            "iPhone WebGPU funguje.\n\n"
+            +
+            "GPU adaptér: OK\n"
+            +
+            "GPU device: OK\n"
+            +
+            "Buffer test: OK\n\n"
+            +
+            "Teď můžeme řešit lokální AI.";
 
-        status.textContent =
-            "JARVIS ODPOVÍDÁ";
 
-        speak(answer);
+        console.log(
+            "JARVIS WebGPU TEST OK"
+        );
+
+
+        console.log(
+            "Adapter:",
+            adapter.info
+        );
 
 
     } catch (error) {
 
         console.error(
-            "AI ERROR:",
+            "WebGPU chyba:",
             error
         );
 
+
+        status.textContent =
+            "WEBGPU CHYBA";
+
+
         response.textContent =
-            "CHYBA AI:\n\n"
+            "WebGPU se nepodařilo otestovat.\n\n"
             +
             (
                 error?.message ||
                 String(error)
             );
-
-        status.textContent =
-            "CHYBA";
-
-    } finally {
-
-        isThinking = false;
     }
 }
 
 
-/* =========================
-   PSANÍ
-========================= */
+/* ==================================================
+   PSANÍ – ZATÍM JEN TEST
+================================================== */
+
+const textBox =
+document.getElementById("textBox");
+
+const sendButton =
+document.getElementById("sendButton");
+
 
 sendButton.addEventListener(
     "click",
@@ -773,46 +1008,43 @@ sendButton.addEventListener(
         const text =
             textBox.value.trim();
 
+
         if (!text)
             return;
 
-        textBox.value = "";
 
-        recognized.textContent =
+        document.getElementById(
+            "recognized"
+        ).textContent =
             text;
 
-        askJarvis(text);
+
+        response.textContent =
+            "WebGPU test je aktivní.\n"
+            +
+            "Lokální AI zatím není načtená.";
+
+
+        textBox.value = "";
     }
 );
 
 
-textBox.addEventListener(
-    "keydown",
-    event => {
+/* ==================================================
+   MIKROFON – ZATÍM TEST
+================================================== */
 
-        if (
-            event.key === "Enter" &&
-            !event.shiftKey
-        ) {
-
-            event.preventDefault();
-
-            sendButton.click();
-        }
-    }
-);
-
-
-/* =========================
-   MIKROFON
-========================= */
-
-let recognition = null;
-let isListening = false;
+const micButton =
+document.getElementById("micButton");
 
 const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+
+let recognition = null;
+
+let isListening = false;
 
 
 if (SpeechRecognition) {
@@ -849,6 +1081,7 @@ if (SpeechRecognition) {
 
         let text = "";
 
+
         for (
             let i = event.resultIndex;
             i < event.results.length;
@@ -860,9 +1093,12 @@ if (SpeechRecognition) {
                 .transcript;
         }
 
+
         if (text.trim()) {
 
-            recognized.textContent =
+            document.getElementById(
+                "recognized"
+            ).textContent =
                 text;
         }
     };
@@ -877,35 +1113,19 @@ if (SpeechRecognition) {
             "listening"
         );
 
-        const text =
-            recognized.textContent.trim();
-
-        if (
-            text &&
-            text !== "ŘEKNI NĚCO…"
-        ) {
-
-            askJarvis(text);
-        }
+        status.textContent =
+            "WEBGPU FUNGUJE ✓";
     };
 
 
     recognition.onerror =
-    error => {
-
-        console.log(
-            "Speech:",
-            error
-        );
+    () => {
 
         isListening = false;
 
         micButton.classList.remove(
             "listening"
         );
-
-        status.textContent =
-            "PŘIPRAVEN";
     };
 }
 
@@ -917,10 +1137,11 @@ micButton.addEventListener(
         if (!recognition) {
 
             response.textContent =
-                "Tento prohlížeč nepodporuje diktování.";
+                "Diktování není v tomto prohlížeči dostupné.";
 
             return;
         }
+
 
         if (isListening) {
 
@@ -928,17 +1149,11 @@ micButton.addEventListener(
 
         } else {
 
-            recognized.textContent =
-                "ŘEKNI NĚCO…";
-
-            response.textContent =
-                "";
-
             try {
 
                 recognition.start();
 
-            } catch (error) {
+            } catch(error) {
 
                 console.log(error);
             }
@@ -947,47 +1162,11 @@ micButton.addEventListener(
 );
 
 
-/* =========================
-   HLAS
-========================= */
+/* ==================================================
+   START TESTU
+================================================== */
 
-function speak(text) {
-
-    if (
-        !("speechSynthesis" in window)
-    )
-        return;
-
-    speechSynthesis.cancel();
-
-    const utterance =
-        new SpeechSynthesisUtterance(
-            text
-        );
-
-    utterance.lang =
-        "cs-CZ";
-
-    utterance.rate =
-        0.48;
-
-    utterance.pitch =
-        0.85;
-
-    utterance.volume =
-        1;
-
-    speechSynthesis.speak(
-        utterance
-    );
-}
-
-
-/* =========================
-   START
-========================= */
-
-loadAI();
+testWebGPU();
 
 </script>
 
